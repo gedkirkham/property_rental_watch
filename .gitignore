@@ -1,2 +1,3 @@
 property_rental_watch.code-workspace
 start_venv.sh
+*.pyc
