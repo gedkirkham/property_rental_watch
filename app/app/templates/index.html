@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <header>
+        <h1 class="tw-text-5xl">
+            Welcome to Property Rental Watch!
+        </h1>
+    </header>
+
+    {{ form.media }}
+    <!-- needed for JS/GoogleMaps lookup -->
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+
+        <button type="submit">
+            REVIEW
+        </button>
+    </form>
+</section>
+{% endblock %}

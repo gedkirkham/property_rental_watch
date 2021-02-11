@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+{% load static compress %}
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Property Rental Watch</title>
+
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/master.css' %}" type="text/css" />
+    {% endcompress %}
+</head>
+
+<body class="tw-container tw-mx-auto tw-bg-warmGray-100">
+    <header class="header">
+        </style>
+        <nav class="tw-mt-8">
+            <ul class="tw-text-4xl tw-flex tw-justify-between tw-items-baseline tw-space-x-12">
+                <li class="tw-text-8xl tw-font-bold">
+                    <a class="tw_main_nav_a" {% comment %} href="{% url 'home' %}" {% endcomment %}>
+                        Property Rental Watch
+                    </a>
+                </li>
+
+                <li class="tw-flex-grow"></li>
+
+                {% if user.is_authenticated %}
+                <li>
+                    <a class="tw_main_nav_a" {% comment %} href="{% url 'accounts:profile' %}" {% endcomment %}>
+                        MY PROFILE
+                    </a>
+                </li>
+                <li>
+                    <a class="tw_main_nav_a" {% comment %} href="{% url 'accounts:logout' %}" {% endcomment %}>
+                        LOG OUT
+                    </a>
+                </li>
+                {% else %}
+                <li>
+                    <a class="tw_main_nav_a" {% comment %} href="{% url 'accounts:signup' %}" {% endcomment %}>
+                        CREATE ACCOUNT
+                    </a>
+                </li>
+                <li>
+                    <a class="tw_main_nav_a" {% comment %} href="{% url 'login' %}" {% endcomment %}>
+                        LOG IN
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+
+</html>
