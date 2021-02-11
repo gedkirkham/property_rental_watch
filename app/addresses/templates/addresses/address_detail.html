@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+{{ object }}
+
+<button>
+    <a href="{% url 'reviews:review_create' %}?addr={{object.id}}">
+        POST REVIEW
+    </a>
+</button>
+
+<ul>
+    {% for review in reviews %}
+    <li>
+        {{ review }}
+    </li>
+    {%endfor%}
+</ul>
+
+{% endblock %}
