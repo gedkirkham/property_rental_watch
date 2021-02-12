@@ -36,3 +36,8 @@ class ReviewCreateView(CreateView):
 class ReviewDetailView(DetailView):
     model = Review
     template_name = 'reviews/review_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["address"] = Address.objects.get(pk=self.object.address.pk)
+        return context
