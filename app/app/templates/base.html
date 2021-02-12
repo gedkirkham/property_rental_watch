@@ -24,32 +24,6 @@
                         Property Rental Watch
                     </a>
                 </li>
-
-                <li class="tw-flex-grow"></li>
-
-                {% if user.is_authenticated %}
-                <li>
-                    <a class="tw_main_nav_a" {% comment %} href="{% url 'accounts:profile' %}" {% endcomment %}>
-                        MY PROFILE
-                    </a>
-                </li>
-                <li>
-                    <a class="tw_main_nav_a" {% comment %} href="{% url 'accounts:logout' %}" {% endcomment %}>
-                        LOG OUT
-                    </a>
-                </li>
-                {% else %}
-                <li>
-                    <a class="tw_main_nav_a" {% comment %} href="{% url 'accounts:signup' %}" {% endcomment %}>
-                        CREATE ACCOUNT
-                    </a>
-                </li>
-                <li>
-                    <a class="tw_main_nav_a" {% comment %} href="{% url 'login' %}" {% endcomment %}>
-                        LOG IN
-                    </a>
-                </li>
-                {% endif %}
             </ul>
         </nav>
     </header>
