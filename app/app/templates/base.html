@@ -15,8 +15,7 @@
 </head>
 
 <body class="tw-container tw-mx-auto tw-bg-warmGray-100">
-    <header class="header">
-        </style>
+    {% comment %} <header class="header">
         <nav class="tw-mt-8">
             <ul class="tw-text-4xl tw-flex tw-justify-between tw-items-baseline tw-space-x-12">
                 <li class="tw-text-8xl tw-font-bold">
@@ -26,9 +25,9 @@
                 </li>
             </ul>
         </nav>
-    </header>
+    </header> {% endcomment %}
 
-    <main class="main">
+    <main class="main tw-mt-16">
         {% block content %}
         {% endblock %}
     </main>
