@@ -1,0 +1,14 @@
+body {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr 100px;
+    gap: 0px 0px;
+    grid-template-areas:
+      "header header header header"
+      "main main main main"
+      "footer footer footer footer";
+  }
+  .header { grid-area: header; }
+  .footer { grid-area: footer; }
+  .main { grid-area: main; }
