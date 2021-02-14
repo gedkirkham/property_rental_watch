@@ -4,16 +4,19 @@
 
 @layer base {
     h1 {
-        @apply tw-text-5xl;
+        @apply tw-text-gray-900 tw-text-7xl;
     }
     h2 {
-        @apply tw-text-3xl;
+        @apply tw-text-gray-900 tw-text-4xl;
     }
     h3 {
-        @apply tw-text-base;
+        @apply tw-text-gray-900 tw-text-2xl;
     }
     p {
-        @apply tw-text-gray-700;
+        @apply tw-text-gray-800 tw-text-xl;
+    }
+    li {
+        @apply tw-text-gray-800 tw-text-xl;
     }
 }
 
