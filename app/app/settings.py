@@ -26,7 +26,7 @@ SECRET_KEY = '@#79fe01uhssj)2mto1@z5j5jg))=6)w^t(+y!%k8t0)5xuw7s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'compressor',
     'reviews',
     'theme',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
