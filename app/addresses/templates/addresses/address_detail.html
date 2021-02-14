@@ -1,21 +1,59 @@
 {% extends 'index.html' %}
 
 {% block content %}
+<section>
+    <header>
+        <h2>
+            {{ object }}
+        </h2>
+    </header>
 
-{{ object }}
+    <section class="tw-my-8">
+        <header>
+            <h3>
+                Stats:
+            </h3>
+        </header>
 
-<button>
-    <a href="{% url 'reviews:review_create' %}?addr={{object.id}}">
-        POST REVIEW
-    </a>
-</button>
+        <ul>
+            <li>
+                Average rating: {{ average_rating.rating__avg|floatformat }}
+            </li>
+        </ul>
+    </section>
 
-<ul>
-    {% for review in reviews %}
-    <li>
-        {{ review }}
-    </li>
-    {%endfor%}
-</ul>
+    <section class="tw-my-8">
+        <header>
+            <h3>
+                This address has {{ reviews.count }}
 
+                {% if reviews.count == 1 %}
+                review
+                {% else %}
+                reviews
+                {% endif %}
+            </h3>
+        </header>
+
+        <ul class="tw-my-8">
+            {% for review in reviews %}
+            <li>
+                <a href="
+            {% url 'reviews:review_detail' pk=review.pk %}">
+                    {{ review }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <button class="tw-my-2 tw_neutral_button">
+            <a
+                class="tw_button_anchor"
+                href="{% url 'reviews:review_create' %}?addr={{object.id}}"
+            >
+                ADD REVIEW
+            </a>
+        </button>
+    </section>
+</section>
 {% endblock %}
