@@ -4,27 +4,50 @@
 
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="Want to find out how previous tenants rated their experience in your new property? Find out here!"/>
-    <meta name="keywords" content="property, rental, review, rate, landlord, estate agents, experience"/>
-    <meta name="author" content="Ged Kirkham" />
-    <meta name="copyright" content="Ged Kirkham" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta
+            name="description"
+            content="Want to find out how previous tenants rated their experience in your new property? Find out here!"
+        />
+        <meta
+            name="keywords"
+            content="property, rental, review, rate, landlord, estate agents, experience"
+        />
+        <meta
+            name="author"
+            content="Ged Kirkham"
+        />
+        <meta
+            name="copyright"
+            content="Ged Kirkham"
+        />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+        >
 
-    <title>Property Rental Watch</title>
+        <title>Property Rental Watch</title>
 
-    {% compress css %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
-    <link rel="stylesheet" href="{% static 'css/master.css' %}" type="text/css" />
-    {% endcompress %}
-</head>
+        {% compress css %}
+        <link
+            rel="stylesheet"
+            href="{% static 'css/styles.css' %}"
+            type="text/css"
+        />
+        <link
+            rel="stylesheet"
+            href="{% static 'css/master.css' %}"
+            type="text/css"
+        />
+        {% endcompress %}
+    </head>
 
-<body class="tw-container tw-mx-auto tw-bg-warmGray-100 tw-w-11/12 sm:tw-w-full">
-    <main class="main tw-mt-16">
-        {% block content %}
-        {% endblock %}
-    </main>
-</body>
+    <body class="tw-container tw-mx-auto tw-bg-warmGray-100 tw-w-11/12 sm:tw-w-full">
+        <main class="main tw-mt-16">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </body>
 
 </html>

@@ -12,12 +12,18 @@
     {% comment %} needed for JS/GoogleMaps lookup {% endcomment %}
     {{ form.media }}
 
-    <form method="POST" class="tw-w-full sm:tw-w-96 tw-py-12 tw-flex tw-flex-col tw-space-y-4">
+    <form
+        method="POST"
+        class="tw-w-full sm:tw-w-96 tw-py-12 tw-flex tw-flex-col tw-space-y-4"
+    >
         {% csrf_token %}
         {{ form.address|add_label_class:"tw-text-3xl tw-leading-7 tw-text-gray-900" }}
         {% render_field form.address class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
 
-        <button type="submit" class="tw_neutral_button tw_button_anchor">
+        <button
+            type="submit"
+            class="tw_neutral_button tw_button_anchor"
+        >
             SEARCH
         </button>
     </form>
