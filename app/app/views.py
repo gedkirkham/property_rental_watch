@@ -26,8 +26,8 @@ class HomeView(CreateView):
     def form_valid(self, form):
         """If the form is valid, save the associated model."""
         self.object = form.save(commit=False)
-        try:
+        if Address.objects.filter(address__raw=self.object).count() > 0:
             self.object = Address.objects.filter(address__raw=self.object).first()
-        except:
+        else:
             self.object = form.save()
         return HttpResponseRedirect(self.get_success_url())
