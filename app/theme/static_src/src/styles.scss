@@ -22,7 +22,7 @@
 
 @layer components {
     .tw_neutral_button {
-        @apply tw-bg-blue-500 tw-text-white tw-font-bold tw-rounded hover:tw-bg-blue-400;
+        @apply tw-bg-blue-600 tw-text-white tw-font-bold tw-rounded hover:tw-bg-blue-500;
     }
     .tw_danger_button {
         @apply tw-bg-red-500 tw-text-white tw-font-bold tw-rounded;
