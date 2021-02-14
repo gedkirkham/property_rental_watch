@@ -28,18 +28,17 @@
                 This address has {{ reviews.count }}
 
                 {% if reviews.count == 1 %}
-                review
+                review:
                 {% else %}
-                reviews
+                reviews:
                 {% endif %}
             </h3>
         </header>
 
-        <ul class="tw-my-8">
+        <ul class="tw-my-4">
             {% for review in reviews %}
             <li>
-                <a href="
-            {% url 'reviews:review_detail' pk=review.pk %}">
+                <a href="{% url 'reviews:review_detail' pk=review.pk %}">
                     {{ review }}
                 </a>
             </li>
