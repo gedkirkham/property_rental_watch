@@ -22,6 +22,15 @@
         </ul>
     </section>
 
+    <button class="tw-my-2 tw_neutral_button">
+        <a
+            class="tw_button_anchor"
+            href="{% url 'reviews:review_create' %}?addr={{object.id}}"
+        >
+            ADD REVIEW
+        </a>
+    </button>
+
     <section class="tw-my-8">
         <header>
             <h3>
@@ -35,15 +44,21 @@
             </h3>
         </header>
 
-        <ul class="tw-my-4">
+        <ol class="tw-my-4 tw-space-y-4 tw-list-decimal tw-list-inside">
             {% for review in reviews %}
-            <li>
+            <li data-counter="review">
                 <a href="{% url 'reviews:review_detail' pk=review.pk %}">
-                    {{ review }}
+                    Title: {{ review.title }}
                 </a>
+                <div>
+                    Rating: {{ review.rating }}
+                </div>
+                <div>
+                    Date: {{ review.created }}
+                </div>
             </li>
             {% endfor %}
-        </ul>
+        </ol>
 
         <button class="tw-my-2 tw_neutral_button">
             <a
