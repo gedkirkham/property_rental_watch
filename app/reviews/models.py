@@ -2,7 +2,9 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.shortcuts import reverse
 from django.utils.translation import gettext as _
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class Review(models.Model):
     """Model definition for Review."""
@@ -11,6 +13,9 @@ class Review(models.Model):
     desc = models.TextField(max_length=5000)
     rating = models.PositiveIntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)])
     address = models.ForeignKey("addresses.Address", verbose_name=_("Address"), on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    user = models.ForeignKey(User, on_delete=models.RESTRICT)
+    active = models.BooleanField(default=False)
 
     class Meta:
         """Meta definition for Review."""
