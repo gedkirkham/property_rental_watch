@@ -19,6 +19,9 @@
             <li>
                 Average rating: {{ average_rating.rating__avg|floatformat }}
             </li>
+            <li>
+                Reviews: {{ reviews.count }}
+            </li>
         </ul>
     </section>
 
@@ -34,13 +37,7 @@
     <section class="tw-my-8">
         <header>
             <h3>
-                This address has {{ reviews.count }}
-
-                {% if reviews.count == 1 %}
-                review:
-                {% else %}
-                reviews:
-                {% endif %}
+                Reviews:
             </h3>
         </header>
 
