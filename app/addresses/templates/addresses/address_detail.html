@@ -44,7 +44,10 @@
         <ol class="tw-my-4 tw-space-y-4 tw-list-decimal tw-list-inside">
             {% for review in reviews %}
             <li data-counter="review">
-                <a href="{% url 'reviews:review_detail' pk=review.pk %}">
+                <a
+                    href="{% url 'reviews:review_detail' pk=review.pk %}"
+                    class="tw_main_nav_a"
+                >
                     Title: {{ review.title }}
                 </a>
                 <div>
