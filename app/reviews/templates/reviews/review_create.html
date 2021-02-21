@@ -1,12 +1,59 @@
 {% extends 'index.html' %}
 
+{% load widget_tweaks %}
+
 {% block content %}
 
 <form method="POST">
     {% csrf_token %}
-    {{ form.as_p}}
-    <button type="submit">
-        SUBMIT
-    </button>
+
+    <fieldset>
+        <legend>
+            <h2>
+                Create review:
+            </h2>
+        </legend>
+
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+
+        <div class="tw-my-8">
+            {% for field in form.visible_fields %}
+            <div class="tw-py-4">
+
+                <label
+                    for="{{ field.id_for_label }}"
+                    class="tw-text-gray-800 tw-text-xl tw-block"
+                >
+                    {{ field.label }}:
+                </label>
+
+                {{ field|add_class:"tw_input" }}
+
+                {% if field.help_text %}
+                <p class="tw-text-gray-600">
+                    {{ field.help_text|safe }}
+                </p>
+                {% endif %}
+
+                {% for err in field.errors %}
+                <p class="tw-text-red-600">
+                    {{ err }}
+                </p>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+        {{ form.non_field_errors }}
+
+        <button
+            class="tw_neutral_button tw_button_anchor"
+            type="submit"
+        >
+            SUBMIT
+        </button>
+    </fieldset>
 </form>
 {% endblock %}
