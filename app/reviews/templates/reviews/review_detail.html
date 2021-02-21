@@ -1,7 +1,28 @@
 {% extends 'index.html' %}
 
 {% block content %}
-{{ address }}
-<br>
-{{ object }}
+<section>
+    <header>
+        <h2>
+            <a
+                href="{% url 'addresses:address_detail' pk=address.pk %}"
+                class="tw_main_nav_a"
+            >
+                {{ address }}
+            </a>
+        </h2>
+    </header>
+
+    <ul class="tw-my-8">
+        <li>
+            Title: {{ object.title }}
+        </li>
+        <li>
+            Description: {{ object.desc }}
+        </li>
+        <li>
+            Rating: {{ object.rating }}
+        </li>
+    </ul>
+</section>
 {% endblock %}
