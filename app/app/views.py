@@ -1,33 +1,34 @@
 from django.views.generic import FormView, CreateView
 from django.shortcuts import render, reverse
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, QueryDict
 
 from addresses.models import Address
-from addresses.forms import AddressLookupForm
+from addresses.forms import CountryForm
 
-class HomeView(CreateView):
-    model = Address
-    template_name = "index.html"
-    form_class = AddressLookupForm
+
+class HomeView(FormView):
+    form_class = CountryForm
+    template_name = 'index.html'
+
+    def form_valid(self, form):
+        """If the form is valid, redirect to the supplied URL."""
+        self.country = form.cleaned_data['country']
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         """Return the URL to redirect to after processing a valid form."""
-        self.success_url = reverse_lazy('addresses:address_detail', kwargs= { 'pk': self.object.pk})
-        return str(self.success_url)  # success_url may be lazy
 
-    def post(self, request):
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+        query_dictionary = QueryDict('', mutable=True)
+        query_dictionary.update(
+            {
+                'country': self.country.lower()
+            }
+        )
+        url = '{base_url}?{querystring}'.format(
+            base_url=reverse_lazy('addresses:address_lookup'),
+            querystring=query_dictionary.urlencode()
+        )
 
-    def form_valid(self, form):
-        """If the form is valid, save the associated model."""
-        self.object = form.save(commit=False)
-        if Address.objects.filter(address__raw=self.object).count() > 0:
-            self.object = Address.objects.filter(address__raw=self.object).first()
-        else:
-            self.object = form.save()
-        return HttpResponseRedirect(self.get_success_url())
+        self.success_url = url
+        return str(self.success_url)

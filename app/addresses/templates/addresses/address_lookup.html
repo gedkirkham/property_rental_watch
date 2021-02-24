@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% load widget_tweaks %}
 
 {% block content %}
@@ -8,8 +8,8 @@
         class="tw-w-full sm:tw-w-96 tw-py-12 tw-flex tw-flex-col tw-space-y-4"
     >
         {% csrf_token %}
-        {{ form.country|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
-        {% render_field form.country class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
+        {{ form.postcode|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
+        {% render_field form.postcode class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
 
         <button
             type="submit"
