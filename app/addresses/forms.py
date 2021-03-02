@@ -15,7 +15,7 @@ class AddressCreateForm(forms.ModelForm):
         """Meta definition for AddressCreateform."""
 
         model = Address
-        fields = ('num_or_name', 'address_lookup')
+        fields = ('num_or_name', 'street_1', 'street_2', 'address_lookup')
 
     def __init__(self, *args, **kwargs):
         super(AddressCreateForm, self).__init__(*args, **kwargs)

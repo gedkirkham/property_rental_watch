@@ -9,6 +9,8 @@ class Address(models.Model):
     address_lookup = models.ForeignKey(
         "AddressLookup", on_delete=models.CASCADE)
     num_or_name = models.CharField(_('House number or name'), max_length=50)
+    street_1 = models.CharField(max_length=50)
+    street_2 = models.CharField(max_length=50, blank=True)
 
     class Meta:
         """Meta definition for Address."""
@@ -18,7 +20,7 @@ class Address(models.Model):
 
     def __str__(self):
         """Unicode representation of Address."""
-        return f"{self.num_or_name}, {self.address_lookup}"
+        return f"{self.num_or_name}, {self.street_1}, {self.address_lookup}"
 
     def get_absolute_url(self):
         return reverse_lazy('addresses:address_detail', kwargs={'pk': self.pk})

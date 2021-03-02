@@ -10,6 +10,13 @@
         {% csrf_token %}
         {{ form.num_or_name|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
         {% render_field form.num_or_name class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
+
+        {{ form.street_1|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
+        {% render_field form.street_1 class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
+        
+        {{ form.street_2|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
+        {% render_field form.street_2 class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
+        
         {{ form.address_lookup|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
         {% render_field form.address_lookup class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
 
