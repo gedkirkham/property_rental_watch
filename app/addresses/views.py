@@ -48,6 +48,8 @@ class AddressLookupView(CreateView):
     def form_valid(self, form, *args, **kwargs):
         """If the form is valid, save the associated model."""
         country_code = self.request.GET['country']
+        postcode = form.cleaned_data['postcode']
+
         queryset = AddressLookup.objects.filter(
             postcode=form.cleaned_data['postcode'].upper(), country_code=country_code.upper())
         if queryset.count() > 0:
@@ -57,7 +59,7 @@ class AddressLookupView(CreateView):
 
             geolocator = Nominatim(user_agent="property_rental_watch")
             location = geolocator.geocode(
-                {'postalcode': form.cleaned_data['postcode']}, addressdetails=True, country_codes=country_code)
+                {'postalcode': postcode}, addressdetails=True, country_codes=country_code)
             if location:
                 self.object.place_id = location.raw['place_id']
                 self.object.postcode = location.raw['address']['postcode']
@@ -76,7 +78,13 @@ class AddressLookupView(CreateView):
                 self.object.save()
                 return HttpResponseRedirect(self.get_success_url())
             else:
-                form.add_error('postcode', _('Invalid postcode'))
+                message = f'Invalid {country_code.upper()} postcode'
+                if len(postcode) == 5:
+                    postcode = postcode.upper()
+                    postcode = f'"{postcode[0]}{postcode[1]} {postcode[2]}{postcode[3]}{postcode[4]}"'
+                    message = f'{message}. Did you mean {postcode}? Please take note of any spaces between characters'
+
+                form.add_error('postcode', _(message))
                 return super(AddressLookupView, self).form_invalid(form)
 
 
