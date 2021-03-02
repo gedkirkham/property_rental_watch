@@ -3,6 +3,7 @@ from django.views.generic import DetailView, CreateView
 from django.db.models import Avg
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, QueryDict
+from django.utils.translation import gettext_lazy as _
 
 from .models import Address, AddressLookup
 from reviews.models import Review
@@ -57,22 +58,26 @@ class AddressLookupView(CreateView):
             geolocator = Nominatim(user_agent="property_rental_watch")
             location = geolocator.geocode(
                 {'postalcode': form.cleaned_data['postcode']}, addressdetails=True, country_codes=country_code)
-            self.object.place_id = location.raw['place_id']
-            self.object.postcode = location.raw['address']['postcode']
-            self.object.lat = location.raw['lat']
-            self.object.lon = location.raw['lon']
-            self.object.display_name = location.raw['display_name']
-            self.object.address_class = location.raw['class']
-            self.object.importance = location.raw['importance']
-            if 'address' in location.raw and 'city' in location.raw['address']:
-                self.object.city = location.raw['address']['city']
-            self.object.state_district = location.raw['address']['state_district']
-            self.object.state = location.raw['address']['state']
-            self.object.country = location.raw['address']['country']
-            self.object.country_code = location.raw['address']['country_code']
+            if location:
+                self.object.place_id = location.raw['place_id']
+                self.object.postcode = location.raw['address']['postcode']
+                self.object.lat = location.raw['lat']
+                self.object.lon = location.raw['lon']
+                self.object.display_name = location.raw['display_name']
+                self.object.address_class = location.raw['class']
+                self.object.importance = location.raw['importance']
+                if 'address' in location.raw and 'city' in location.raw['address']:
+                    self.object.city = location.raw['address']['city']
+                self.object.state_district = location.raw['address']['state_district']
+                self.object.state = location.raw['address']['state']
+                self.object.country = location.raw['address']['country']
+                self.object.country_code = location.raw['address']['country_code']
 
-            self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+                self.object.save()
+                return HttpResponseRedirect(self.get_success_url())
+            else:
+                form.add_error('postcode', _('Invalid postcode'))
+                return super(AddressLookupView, self).form_invalid(form)
 
 
 class AddressCreateView(CreateView):

@@ -8,15 +8,49 @@
         class="tw-w-full sm:tw-w-96 tw-py-12 tw-flex tw-flex-col tw-space-y-4"
     >
         {% csrf_token %}
-        {{ form.postcode|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
-        {% render_field form.postcode class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
 
-        <button
-            type="submit"
-            class="tw_neutral_button tw_button_anchor"
-        >
-            SUBMIT
-        </button>
+        <fieldset>
+            {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
+
+            <div class="tw-my-8">
+                {% for field in form.visible_fields %}
+                <div class="tw-py-4">
+
+                    <label
+                        for="{{ field.id_for_label }}"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        {{ field.label }}:
+                    </label>
+
+                    {{ field|add_class:"tw_input" }}
+
+                    {% if field.help_text %}
+                    <p class="tw-text-gray-600">
+                        {{ field.help_text|safe }}
+                    </p>
+                    {% endif %}
+
+                    {% for err in field.errors %}
+                    <p class="tw-text-red-600">
+                        {{ err }}
+                    </p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+            {{ form.non_field_errors }}
+
+            <button
+                type="submit"
+                class="tw_neutral_button tw_button_anchor"
+            >
+                SUBMIT
+            </button>
+        </fieldset>
     </form>
 </section>
 {% endblock %}
