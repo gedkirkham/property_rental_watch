@@ -3,7 +3,8 @@ const colors = require('tailwindcss/colors')
 
 module.exports = {
     purge: {
-        enabled: process.env.NODE_ENV === 'production',
+        enabled: true,
+        // enabled: process.env.NODE_ENV === 'production',
         content: [
             '../../templates/*.html', // base templates
             '../../**/templates/**/*.html', // app specific templates

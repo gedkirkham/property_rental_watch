@@ -36,6 +36,9 @@
     .tw_input:focus {
         @apply tw-outline-none tw-ring;
     }
+    .tw_select {
+        @apply tw-bg-white tw-shadow tw-border tw-rounded tw-w-full tw-py-2 tw-px-3 tw-text-gray-700 tw-leading-tight focus:tw-outline-none focus:tw-ring;
+    }
     .tw_button_anchor {
         @apply tw-inline-block tw-py-2 tw-px-4;
     }

@@ -5,7 +5,7 @@
 <section class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center">
     <form
         method="POST"
-        class="tw-w-full sm:tw-w-96 tw-py-12 tw-flex tw-flex-col tw-space-y-4"
+        class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col"
     >
         {% csrf_token %}
 
@@ -14,39 +14,34 @@
             {{ hidden }}
             {% endfor %}
 
-            <div class="tw-my-8">
-                {% for field in form.visible_fields %}
-                <div class="tw-py-4">
+            {% for field in form.visible_fields %}
+            <label
+                for="{{ field.id_for_label }}"
+                class="tw-text-gray-800 tw-text-xl tw-block"
+            >
+                {{ field.label }}:
+            </label>
 
-                    <label
-                        for="{{ field.id_for_label }}"
-                        class="tw-text-gray-800 tw-text-xl tw-block"
-                    >
-                        {{ field.label }}:
-                    </label>
+            {{ field|add_class:"tw_input tw-bg-white" }}
 
-                    {{ field|add_class:"tw_input" }}
+            {% if field.help_text %}
+            <p class="tw-text-gray-600">
+                {{ field.help_text|safe }}
+            </p>
+            {% endif %}
 
-                    {% if field.help_text %}
-                    <p class="tw-text-gray-600">
-                        {{ field.help_text|safe }}
-                    </p>
-                    {% endif %}
-
-                    {% for err in field.errors %}
-                    <p class="tw-text-red-600">
-                        {{ err }}
-                    </p>
-                    {% endfor %}
-                </div>
-                {% endfor %}
-            </div>
+            {% for err in field.errors %}
+            <p class="tw-text-red-600">
+                {{ err }}
+            </p>
+            {% endfor %}
+            {% endfor %}
 
             {{ form.non_field_errors }}
 
             <button
                 type="submit"
-                class="tw_neutral_button tw_button_anchor"
+                class="tw_neutral_button tw_button_anchor tw-w-full tw-mt-8"
             >
                 SUBMIT
             </button>

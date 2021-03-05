@@ -5,27 +5,51 @@
 <section class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center">
     <form
         method="POST"
-        class="tw-w-full sm:tw-w-96 tw-py-12 tw-flex tw-flex-col tw-space-y-4"
+        class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col tw-pb-8"
     >
         {% csrf_token %}
-        {{ form.num_or_name|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
-        {% render_field form.num_or_name class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
 
-        {{ form.street_1|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
-        {% render_field form.street_1 class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
-        
-        {{ form.street_2|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
-        {% render_field form.street_2 class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
-        
-        {{ form.address_lookup|add_label_class:"tw-text-xl tw-leading-7 tw-text-gray-900" }}
-        {% render_field form.address_lookup class+="tw-w-full tw-px-4 tw-py-2 tw-mb-4 tw-mr-4 tw-text-base tw-text-gray-900 tw-bg-white tw-border-transparent tw-rounded-lg focus:tw-border-gray-500 focus:tw-bg-white focus:tw-ring-0" %}
+        <fieldset>
+            {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
 
-        <button
-            type="submit"
-            class="tw_neutral_button tw_button_anchor"
-        >
-            SUBMIT
-        </button>
+            <div class="tw-space-y-4">
+                {% for field in form.visible_fields %}
+                <div>
+                    <label
+                        for="{{ field.id_for_label }}"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        {{ field.label }}:
+                    </label>
+
+                    {{ field|add_class:"tw_select" }}
+
+                    {% if field.help_text %}
+                    <p class="tw-text-gray-600">
+                        {{ field.help_text|safe }}
+                    </p>
+                    {% endif %}
+
+                    {% for err in field.errors %}
+                    <p class="tw-text-red-600">
+                        {{ err }}
+                    </p>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+            {{ form.non_field_errors }}
+
+            <button
+                type="submit"
+                class="tw_neutral_button tw_button_anchor tw-w-full tw-mt-8"
+            >
+                SUBMIT
+            </button>
+        </fieldset>
     </form>
 </section>
 {% endblock %}
