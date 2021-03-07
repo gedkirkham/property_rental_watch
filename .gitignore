@@ -5,3 +5,7 @@ start_venv.sh
 */*/__pycache__/
 */__pycache__/
 __pycache__/
+
+prod.env
+test.env
+server.txt
