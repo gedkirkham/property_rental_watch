@@ -149,3 +149,8 @@ else:
     EMAIL_USE_TLS=True
 
 EMAIL_FROM = 'gedkirkham@protonmail.com'
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+]
