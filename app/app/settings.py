@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 from pathlib import Path
+from .keyconfig import AllowedHosts, Email, Database, Debug, Secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@#79fe01uhssj)2mto1@z5j5jg))=6)w^t(+y!%k8t0)5xuw7s'
+SECRET_KEY = Secrets.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(Debug.DEBUG))
 
 ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS_ENV = AllowedHosts.ALLOWED_HOSTS
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
 
 # Application definition
@@ -82,8 +86,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        "NAME": Database.NAME,
+        "USER": Database.USER,
+        "PASSWORD": Database.PASSWORD,
+        "HOST": Database.HOST,
+        "PORT": Database.PORT,
     }
 }
 
@@ -124,7 +132,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_URL = '/static/static/'
+STATIC_ROOT = '/vol/web/static/'
+MEDIA_URL = '/static/media/'
+MEDIA_ROOT = '/vol/web/media/'
+
+TAILWIND_APP_NAME = 'theme'
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND=Email.BACKEND
+    EMAIL_HOST=Email.HOST
+    EMAIL_PORT=Email.PORT
+    EMAIL_HOST_USER=Email.ADDRESS
+    EMAIL_USE_TLS=True
+
+EMAIL_FROM = 'gedkirkham@protonmail.com'
