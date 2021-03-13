@@ -14,7 +14,8 @@ class ReviewForm(forms.ModelForm):
         """Meta definition for Reviewform."""
 
         model = Review
-        fields = ('title', 'desc', 'rating',)
+        fields = ('title', 'desc', 'rating', 'email')
         help_texts = {
             'rating': _('Give a rating out of 5'),
+            'email': _('Your email address'),
         }

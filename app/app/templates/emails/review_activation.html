@@ -1,0 +1,7 @@
+{% autoescape off %}
+Hello {{ user.username }},
+
+Please click on the link below to confirm your email address. Until confirmed, your view will remain inactive.
+
+http://{{ domain }}{% url 'reviews:review_activate' uidb64=uid reviewb64=review token=token %}
+{% endautoescape %}
