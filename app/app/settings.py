@@ -143,11 +143,11 @@ TAILWIND_APP_NAME = 'theme'
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    EMAIL_BACKEND=Email.BACKEND
-    EMAIL_HOST=Email.HOST
-    EMAIL_PORT=Email.PORT
-    EMAIL_HOST_USER=Email.ADDRESS
-    EMAIL_USE_TLS=True
+    EMAIL_BACKEND = Email.BACKEND
+    EMAIL_HOST = Email.HOST
+    EMAIL_PORT = Email.PORT
+    EMAIL_HOST_USER = Email.ADDRESS
+    EMAIL_USE_TLS = True
 
 EMAIL_FROM = 'gedkirkham@protonmail.com'
 
