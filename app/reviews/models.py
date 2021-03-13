@@ -16,7 +16,7 @@ class Review(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.RESTRICT, blank=True, null=True)
     active = models.BooleanField(default=False)
-    email = models.EmailField(max_length=254)
+    email = models.EmailField(max_length=254, unique=True)
 
     class Meta:
         """Meta definition for Review."""
