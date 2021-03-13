@@ -93,7 +93,9 @@ class ReviewCreateView(CreateView):
     form_class = ReviewForm
 
     def get_success_url(self):
-        """Return the URL to redirect to after processing a valid form."""
+        """
+        Return the URL to redirect to after processing a valid form
+        """
         if self.success_url:
             url = self.success_url.format(**self.object.__dict__)
         else:
@@ -106,7 +108,9 @@ class ReviewCreateView(CreateView):
         return url
 
     def form_valid(self, form):
-        """If the form is valid, save the associated model."""
+        """
+        If the form is valid, save the associated model.
+        """
         self.object = form.save(commit=False)
         self.object.address = get_object_or_404(
             Address, pk=self.request.GET.get('addr'))
