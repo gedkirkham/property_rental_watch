@@ -18,8 +18,6 @@ from addresses.models import Address
 from accounts.models import Profile
 from app.tokens import review_activation_token
 
-# User = get_user_model
-
 
 class ActivateReview(View):
     def get(self, request, uidb64, reviewb64, token, *args, **kwargs):
