@@ -140,16 +140,15 @@ MEDIA_ROOT = '/vol/web/media/'
 
 TAILWIND_APP_NAME = 'theme'
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
-    EMAIL_BACKEND = Email.BACKEND
-    EMAIL_HOST = Email.HOST
-    EMAIL_PORT = Email.PORT
-    EMAIL_HOST_USER = Email.ADDRESS
-    EMAIL_USE_TLS = True
+EMAIL_BACKEND = Email.BACKEND
+EMAIL_HOST = Email.HOST
+EMAIL_PORT = Email.PORT
+EMAIL_HOST_USER = Email.ADDRESS
+EMAIL_HOST_PASSWORD = Email.PASSWORD
+EMAIL_USE_TLS = True
 
 EMAIL_FROM = 'gedkirkham@protonmail.com'
+DEFAULT_FROM_EMAIL = 'gedkirkham@protonmail.com'
 
 import logging
 LOGGING = {
