@@ -14,12 +14,12 @@
             </h2>
         </legend>
 
-        {% for hidden in form.hidden_fields %}
+        {% for hidden in review_form.hidden_fields %}
         {{ hidden }}
         {% endfor %}
 
         <div class="tw-my-8">
-            {% for field in form.visible_fields %}
+            {% for field in review_form.visible_fields %}
             <div class="tw-py-4">
 
                 <label
@@ -46,7 +46,41 @@
             {% endfor %}
         </div>
 
-        {{ form.non_field_errors }}
+        {{ review_form.non_field_errors }}
+
+        {% for hidden in email_form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+
+        <div class="tw-my-8">
+            {% for field in email_form.visible_fields %}
+            <div class="tw-py-4">
+
+                <label
+                    for="{{ field.id_for_label }}"
+                    class="tw-text-gray-800 tw-text-xl tw-block"
+                >
+                    {{ field.label }}:
+                </label>
+
+                {{ field|add_class:"tw_input" }}
+
+                {% if field.help_text %}
+                <p class="tw-text-gray-600">
+                    {{ field.help_text|safe }}
+                </p>
+                {% endif %}
+
+                {% for err in field.errors %}
+                <p class="tw-text-red-600">
+                    {{ err }}
+                </p>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+        {{ email_form.non_field_errors }}
 
         <button
             class="tw_neutral_button tw_button_anchor"

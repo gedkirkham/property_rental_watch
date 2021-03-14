@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, TemplateView
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.models import User
@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
 from .models import Review
-from .forms import ReviewForm
+from .forms import EmailForm, ReviewForm
 from addresses.models import Address
 from accounts.models import Profile
 from app.tokens import review_activation_token
@@ -87,10 +87,60 @@ class ActivateReview(View):
             return redirect('home')
 
 
-class ReviewCreateView(CreateView):
-    model = Review
+class ReviewCreateView(TemplateView):
     template_name = "reviews/review_create.html"
-    form_class = ReviewForm
+    review_form_class = ReviewForm
+    email_form_class = EmailForm
+
+    def post(self, request):
+        post_data = request.POST or None
+
+        review_form = self.review_form_class(post_data, prefix="review")
+        email_form = self.email_form_class(post_data, prefix="email")
+
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.address = get_object_or_404(
+                Address, pk=self.request.GET.get('addr'))
+            review.save()
+
+        if email_form.is_valid():
+            email = email_form.cleaned_data['email']
+
+            user, created = User.objects.get_or_create(
+                username=email, email=email)
+            if not created:
+                password = User.objects.make_random_password()
+                user.set_password(password)
+                user.is_active = False
+                user.save()
+
+            current_site = get_current_site(request)
+            subject = 'Activate Your Review'
+            message = render_to_string('emails/review_activation.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'review': urlsafe_base64_encode(force_bytes(review.pk)),
+                'token': review_activation_token.make_token(user),
+            })
+            user.email_user(subject, message)
+
+            messages.success(
+                self.request, ('Please follow the link in your email to activate your review.'))
+
+        context = self.get_context_data(
+            review_form=review_form,
+            email_form=email_form,
+        )
+
+        if review_form.is_valid() and email_form.is_valid():
+            return redirect(reverse_lazy('reviews:review_detail', kwargs={'pk': review.pk}))
+
+        return self.render_to_response(context)
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
     def get_success_url(self):
         """
@@ -106,41 +156,6 @@ class ReviewCreateView(CreateView):
                     "No URL to redirect to.  Either provide a url or define"
                     " a get_absolute_url method on the Model.")
         return url
-
-    def form_valid(self, form):
-        """
-        If the form is valid, save the associated model.
-        """
-        self.object = form.save(commit=False)
-        self.object.address = get_object_or_404(
-            Address, pk=self.request.GET.get('addr'))
-        self.object.save()
-
-        email = self.object.email
-
-        user = User()
-        user.username = email
-        user.email = email
-        password = User.objects.make_random_password()
-        user.set_password(password)
-        user.is_active = False
-        user.save()
-
-        current_site = get_current_site(self.request)
-        subject = 'Activate Your MySite Account'
-        message = render_to_string('emails/review_activation.html', {
-            'user': user,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'review': urlsafe_base64_encode(force_bytes(self.object.pk)),
-            'token': review_activation_token.make_token(user),
-        })
-        user.email_user(subject, message)
-
-        messages.success(
-            self.request, ('Please follow the link in your email to activate your review.'))
-
-        return super().form_valid(form)
 
 
 class ReviewDetailView(DetailView):
