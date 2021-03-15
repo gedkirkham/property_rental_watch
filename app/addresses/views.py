@@ -109,7 +109,7 @@ class AddressCreateView(CreateView):
         self.object = form.save(commit=False)
 
         queryset = Address.objects.filter(num_or_name=self.object.num_or_name.lower(
-        ), address_lookup=self.object.address_lookup)
+        ), street_1=self.object.street_1.lower(), street_2=self.object.street_2.lower(), address_lookup=self.object.address_lookup)
         if queryset.count() > 0:
             self.object = queryset.first()
         else:
