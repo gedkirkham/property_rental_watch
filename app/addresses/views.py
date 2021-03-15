@@ -63,7 +63,8 @@ class AddressLookupView(CreateView):
                 {'postalcode': postcode}, addressdetails=True, country_codes=country_code)
             if location:
                 self.object.place_id = location.raw['place_id']
-                self.object.postcode = location.raw['address']['postcode'].upper()
+                self.object.postcode = location.raw['address']['postcode'].upper(
+                )
                 self.object.lat = location.raw['lat']
                 self.object.lon = location.raw['lon']
                 self.object.display_name = location.raw['display_name']
@@ -74,7 +75,8 @@ class AddressLookupView(CreateView):
                 self.object.state_district = location.raw['address']['state_district']
                 self.object.state = location.raw['address']['state']
                 self.object.country = location.raw['address']['country']
-                self.object.country_code = location.raw['address']['country_code'].lower()
+                self.object.country_code = location.raw['address']['country_code'].lower(
+                )
 
                 self.object.save()
                 return HttpResponseRedirect(self.get_success_url())
