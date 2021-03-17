@@ -9,3 +9,7 @@ __pycache__/
 prod.env
 test.env
 server.txt
+build_prod.sh
+build_test.sh
+run_prod.sh
+run_test.sh
