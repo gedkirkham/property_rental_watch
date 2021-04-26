@@ -1,15 +1,16 @@
+<!-- prettier-ignore -->
 {% extends 'index.html' %}
 {% load widget_tweaks %}
 
 {% block content %}
-<section class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center">
-    <form
-        method="POST"
-        class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col"
-    >
+<section
+    class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center"
+>
+    <form method="POST" class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col">
         {% csrf_token %}
 
         <fieldset>
+            <!-- prettier-ignore -->
             {% for hidden in form.hidden_fields %}
             {{ hidden }}
             {% endfor %}
@@ -22,18 +23,17 @@
                 {{ field.label }}:
             </label>
 
+            <!-- prettier-ignore -->
             {{ field|add_class:"tw_input tw-bg-white" }}
 
             {% if field.help_text %}
-            <p class="tw-text-gray-600">
-                {{ field.help_text|safe }}
-            </p>
+            <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
             {% endif %}
 
+            <!-- prettier-ignore -->
             {% for err in field.errors %}
-            <p class="tw-text-red-600">
-                {{ err }}
-            </p>
+            <p class="tw-text-red-600">{{ err }}</p>
+            <!-- prettier-ignore -->
             {% endfor %}
             {% endfor %}
 
