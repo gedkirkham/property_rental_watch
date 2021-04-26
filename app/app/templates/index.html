@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
@@ -6,27 +7,27 @@
 <section>
     <ul class="messages">
         {% for message in messages %}
-        <li{% if message.tags %}
-            class="{{ message.tags }}"
-            {% endif %}
-        >{{ message }}</li>
-            {% endfor %}
+        <li {% if message.tags %}class="{{ message.tags }}" {% endif %}>
+            {{ message }}
+        </li>
+        {% endfor %}
     </ul>
 </section>
 {% endif %}
 
-<section class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center">
-    <form
-        method="POST"
-        class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col"
-    >
+<section
+    class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center"
+>
+    <form method="POST" class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col">
         {% csrf_token %}
 
         <fieldset>
-            {% for hidden in form.hidden_fields %}
-            {{ hidden }}
+            <!-- prettier-ignore -->
+            {% for hidden in form.hidden_fields %} 
+            {{ hidden }} 
             {% endfor %}
 
+            <!-- prettier-ignore -->
             {% for field in form.visible_fields %}
             <label
                 for="{{ field.id_for_label }}"
@@ -35,21 +36,20 @@
                 {{ field.label }}:
             </label>
 
-            {{ field|add_class:"tw_select" }}
-
+            <!-- prettier-ignore -->
+            {{ field|add_class:"tw_select" }} 
+            
             {% if field.help_text %}
-            <p class="tw-text-gray-600">
-                {{ field.help_text|safe }}
-            </p>
+            <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
             {% endif %}
 
+            <!-- prettier-ignore -->
             {% for err in field.errors %}
-            <p class="tw-text-red-600">
-                {{ err }}
-            </p>
-            {% endfor %}
-            {% endfor %}
-
+            <p class="tw-text-red-600">{{ err }}</p>
+            <!-- prettier-ignore -->
+            {% endfor %} 
+            {% endfor %} 
+            
             {{ form.non_field_errors }}
 
             <button
