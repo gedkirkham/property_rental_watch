@@ -3,9 +3,8 @@
 {% load static compress %}
 
 <html lang="en">
-
     <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8" />
         <meta
             name="description"
             content="Want to find out how previous tenants rated their experience in your new property? Find out here!"
@@ -14,18 +13,9 @@
             name="keywords"
             content="property, rental, review, rate, landlord, estate agents, experience"
         />
-        <meta
-            name="author"
-            content="Ged Kirkham"
-        />
-        <meta
-            name="copyright"
-            content="Ged Kirkham"
-        />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-        >
+        <meta name="author" content="Ged Kirkham" />
+        <meta name="copyright" content="Ged Kirkham" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>Property Rental Watch</title>
 
@@ -43,16 +33,17 @@
         {% endcompress %}
     </head>
 
-    <body class="tw-container tw-mx-auto tw-bg-warmGray-100 tw-w-11/12 sm:tw-w-full">
+    <body
+        class="tw-container tw-mx-auto tw-bg-warmGray-100 tw-w-11/12 sm:tw-w-full"
+    >
         <header class="header">
             <nav class="tw-mt-8">
-                <ul class="tw-text-4xl tw-flex tw-justify-between tw-items-baseline tw-space-x-12">
+                <ul
+                    class="tw-text-4xl tw-flex tw-justify-between tw-items-baseline tw-space-x-12"
+                >
                     <li class="tw-font-bold">
                         <h1 class="tw-text-center">
-                            <a
-                                class="tw_main_nav_a"
-                                href="{% url 'home' %}"
-                            >
+                            <a class="tw_main_nav_a" href="{% url 'home' %}">
                                 Property Rental Watch
                             </a>
                         </h1>
@@ -62,9 +53,9 @@
         </header>
 
         <main class="main tw-mt-8">
+            <!-- prettier-ignore -->
             {% block content %}
             {% endblock %}
         </main>
     </body>
-
 </html>
