@@ -15,12 +15,18 @@ class AddressCreateForm(forms.ModelForm):
         """Meta definition for AddressCreateform."""
 
         model = Address
-        fields = ('num_or_name', 'street_1', 'street_2', 'address_lookup')
+        fields = ('num_or_name', 'street_1', 'street_2',
+                  'address_lookup')
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialise address_lookup field with queryset. Queryset determined 
+        by HTTP query form.
+        """
         super(AddressCreateForm, self).__init__(*args, **kwargs)
-        self.fields['address_lookup'].queryset = AddressLookup.objects.filter(
+        obj = AddressLookup.objects.filter(
             id=kwargs['initial']['address_lookup'].pk)
+        self.fields['address_lookup'].queryset = obj
 
 
 class AddressLookupForm(forms.ModelForm):

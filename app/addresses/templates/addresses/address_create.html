@@ -1,8 +1,12 @@
+<!-- prettier-ignore -->
 {% extends 'index.html' %}
 {% load widget_tweaks %}
 
 {% block content %}
-<section class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center">
+<section
+    class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center"
+>
+    <!-- prettier-ignore -->
     <form
         method="POST"
         class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col tw-pb-8"
@@ -10,6 +14,7 @@
         {% csrf_token %}
 
         <fieldset>
+            <!-- prettier-ignore -->
             {% for hidden in form.hidden_fields %}
             {{ hidden }}
             {% endfor %}
@@ -19,26 +24,112 @@
                 <div>
                     <label
                         for="{{ field.id_for_label }}"
-                        class="tw-text-gray-800 tw-text-xl tw-block"
+                        class="tw-text-gray-800 tw-text-xl tw-block {% if field.id_for_label == 'id_address_lookup' %}tw-hidden{% endif %}"
                     >
                         {{ field.label }}:
                     </label>
 
-                    {{ field|add_class:"tw_select" }}
-
+                    {% if field.id_for_label == 'id_address_lookup' %}
+                        {{ field|add_class:"tw_select tw-hidden" }}
+                    {% else %}
+                        {{ field|add_class:"tw_select {% if abc == 'id_address_lookup' %}tw-hidden{% endif %}" }}
+                    {% endif %}
+                    
+                    <!-- prettier-ignore -->
                     {% if field.help_text %}
-                    <p class="tw-text-gray-600">
-                        {{ field.help_text|safe }}
-                    </p>
+                    <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
                     {% endif %}
 
+                    <!-- prettier-ignore -->
                     {% for err in field.errors %}
-                    <p class="tw-text-red-600">
-                        {{ err }}
-                    </p>
+                    <p class="tw-text-red-600">{{ err }}</p>
                     {% endfor %}
                 </div>
                 {% endfor %}
+
+                {% if suburb %}
+                <div>
+                    <label
+                        for="suburb"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        Suburb:
+                    </label>
+                    <input id="suburb" type="text" readonly value="{{ suburb }}" class="tw_select"/>
+                </div>
+                {% endif %}
+                
+                {% if city %}
+                <div>
+                    <label
+                        for="suburb"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        City:
+                    </label>
+                    <input type="text" readonly value="{{ city }}" class="tw_select"/>
+                </div>
+                {% endif %}
+
+                {% if county %}
+                <div>
+                    <label
+                        for="suburb"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        County:
+                    </label>
+                    <input type="text" readonly value="{{ county }}" class="tw_select"/>
+                </div>
+                {% endif %}
+
+                {% if state_district %}
+                <div>
+                    <label
+                        for="suburb"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        State district:
+                    </label>
+                    <input type="text" readonly value="{{ state_district }}" class="tw_select"/>
+                </div>
+                {% endif %}
+
+                {% if state %}
+                <div>
+                    <label
+                        for="suburb"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        State:
+                    </label>
+                    <input type="text" readonly value="{{ state }}" class="tw_select"/>
+                </div>
+                {% endif %}
+
+                {% if postcode %}
+                <div>
+                    <label
+                        for="suburb"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        Postcode:
+                    </label>
+                    <input type="text" readonly value="{{ postcode }}" class="tw_select"/>
+                </div>
+                {% endif %}
+
+                {% if country %}
+                <div>
+                    <label
+                        for="suburb"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        Country:
+                    </label>
+                    <input type="text" readonly value="{{ country }}" class="tw_select"/>
+                </div>
+                {% endif %}
             </div>
 
             {{ form.non_field_errors }}

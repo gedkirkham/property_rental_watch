@@ -31,6 +31,7 @@ class AddressLookup(models.Model):
 
     address_class = models.CharField(_('Class'), max_length=50)
     city = models.CharField(_('City'), max_length=50)
+    county = models.CharField(_('County'), max_length=50)
     country = models.CharField(_('Country'), max_length=50)
     country_code = models.CharField(_('Country code'), max_length=50)
     display_name = models.CharField(_('Display name'), max_length=100)
@@ -41,6 +42,7 @@ class AddressLookup(models.Model):
     postcode = models.CharField(_('Postcode'), max_length=50)
     state_district = models.CharField(_('State district'), max_length=50)
     state = models.CharField(_('State'), max_length=50)
+    suburb = models.CharField(_('Suburb'), max_length=50)
 
     class Meta:
         """Meta definition for AddressLookup."""
