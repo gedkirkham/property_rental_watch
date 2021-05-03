@@ -29,7 +29,9 @@
                         {{ field.label }}{%if field.field.required %}*{% endif %}:
                     </label>
 
-                    {% if field.id_for_label == 'id_address_lookup' %}
+                    {% if forloop.first %}
+                        {{ field|add_class:"tw_select"|attr:"autofocus" }}
+                    {% elif field.id_for_label == 'id_address_lookup' %}
                         {{ field|add_class:"tw_select tw-hidden" }}
                     {% else %}
                         {{ field|add_class:"tw_select {% if abc == 'id_address_lookup' %}tw-hidden{% endif %}" }}
