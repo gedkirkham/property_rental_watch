@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import logging
 import os
 from pathlib import Path
 from .keyconfig import AllowedHosts, Email, Database, Debug, Secrets
@@ -150,7 +151,6 @@ EMAIL_USE_TLS = True
 EMAIL_FROM = 'gedkirkham@protonmail.com'
 DEFAULT_FROM_EMAIL = 'gedkirkham@protonmail.com'
 
-import logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
