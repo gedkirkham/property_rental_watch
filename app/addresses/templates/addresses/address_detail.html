@@ -1,27 +1,27 @@
+<!-- prettier-ignore -->
 {% extends 'index.html' %}
+
+{% load i18n %}
+
+{% translate 'ADD REVIEW' as add_review %}
 
 {% block content %}
 <section>
     <header>
-        <h2>
-            {{ object }}
-        </h2>
+        <h2>{{ object }}</h2>
     </header>
 
     <section class="tw-my-8">
         <header>
-            <h3>
-                Stats:
-            </h3>
+            <h3>{% translate 'Stats:' %}</h3>
         </header>
 
         <ul>
             <li>
-                Average rating: {{ average_rating.rating__avg|floatformat }}
+                {% translate 'Average rating:' %} {{
+                average_rating.rating__avg|floatformat }}
             </li>
-            <li>
-                Reviews: {{ reviews.count }}
-            </li>
+            <li>{% translate 'Reviews:' %} {{ reviews.count }}</li>
         </ul>
     </section>
 
@@ -30,15 +30,13 @@
             class="tw_button_anchor"
             href="{% url 'reviews:review_create' %}?addr={{object.id}}"
         >
-            ADD REVIEW
+            {{ add_review }}
         </a>
     </button>
 
     <section class="tw-my-8">
         <header>
-            <h3>
-                Reviews:
-            </h3>
+            <h3>{% translate 'Reviews:' %}</h3>
         </header>
 
         <ol class="tw-my-4 tw-space-y-4 tw-list-decimal tw-list-inside">
@@ -48,14 +46,10 @@
                     href="{% url 'reviews:review_detail' pk=review.pk %}"
                     class="tw_main_nav_a"
                 >
-                    Title: {{ review.title }}
+                    {% translate 'Title:' %} {{ review.title }}
                 </a>
-                <div>
-                    Rating: {{ review.rating }}
-                </div>
-                <div>
-                    Date: {{ review.created }}
-                </div>
+                <div>{% translate 'Rating:' %} {{ review.rating }}</div>
+                <div>{% translate 'Date:' %} {{ review.created }}</div>
             </li>
             {% endfor %}
         </ol>
@@ -65,7 +59,7 @@
                 class="tw_button_anchor"
                 href="{% url 'reviews:review_create' %}?addr={{object.id}}"
             >
-                ADD REVIEW
+                {{ add_review }}
             </a>
         </button>
     </section>

@@ -1,60 +1,54 @@
+<!-- prettier-ignore -->
 {% extends 'base.html' %}
 
-{% load widget_tweaks %}
+{% load widget_tweaks i18n %}
 
 {% block content %}
-    <section>
-        <form method="POST">
-            {% csrf_token %}
+<section>
+    <form method="POST">
+        {% csrf_token %}
 
-            <fieldset>
-                <legend class="tw-text-3xl">
-                    Login:
-                </legend>
+        <fieldset>
+            <legend class="tw-text-3xl">{% translate 'Login:' %}</legend>
 
-                <hr />
+            <hr />
 
-                {% for hidden in form.hidden_fields %}
+            <!-- prettier-ignore -->
+            {% for hidden in form.hidden_fields %}
                     {{ hidden }}
                 {% endfor %}
 
-                <div class="tw-my-8">
-                    {% for field in form.visible_fields %}
-                        <div class="tw-py-4">
+            <div class="tw-my-8">
+                {% for field in form.visible_fields %}
+                <div class="tw-py-4">
+                    <label
+                        for="{{ field.id_for_label }}"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        {{ field.label }}:
+                    </label>
 
-                            <label 
-                                for="{{ field.id_for_label }}"
-                                class="tw-text-gray-800 tw-text-xl tw-block"
-                            >
-                                {{ field.label }}:
-                            </label>
+                    {{ field|add_class:"tw_input" }}
 
-                            {{ field|add_class:"tw_input" }}
+                    <!-- prettier-ignore -->
+                    {% if field.help_text %}
+                    <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
+                    {% endif %}
 
-                            {% if field.help_text %}
-                                <p class="tw-text-gray-600">
-                                    {{ field.help_text|safe }}
-                                </p>
-                            {% endif %}
-
-                            {% for err in field.errors %}
-                                <p class="tw-text-red-600">
-                                    {{ err }}
-                                </p>
-                            {% endfor %}
-                        </div>
+                    <!-- prettier-ignore -->
+                    {% for err in field.errors %}
+                    <p class="tw-text-red-600">{{ err }}</p>
                     {% endfor %}
                 </div>
+                {% endfor %}
+            </div>
 
-                {{ form.non_field_errors }}
+            {{ form.non_field_errors }}
 
-                <button 
-                    class="tw_neutral_button tw_button_anchor"
-                    type="submit"
-                >
-                    LOGIN
-                </button>
-            </fieldset>
-        </form>
-    </section>
+            <button class="tw_neutral_button tw_button_anchor" type="submit">
+                {% translate 'LOGIN' %}
+            </button>
+        </fieldset>
+    </form>
+</section>
 {% endblock %}

@@ -1,6 +1,7 @@
 <!-- prettier-ignore -->
 {% extends 'index.html' %}
-{% load widget_tweaks %}
+
+{% load widget_tweaks i18n %}
 
 {% block content %}
 <section
@@ -8,7 +9,7 @@
 >
     <ul>
         <li>
-            <b><div>Country:</div></b>
+            <b><div>{% translate 'Country:' %}</div></b>
             {{ country }}
         </li>
     </ul>
@@ -54,7 +55,7 @@
                 type="submit"
                 class="tw_neutral_button tw_button_anchor tw-w-full tw-mt-8"
             >
-                SUBMIT
+                {{ button_submit|upper }}
             </button>
         </fieldset>
     </form>

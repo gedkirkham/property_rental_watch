@@ -1,6 +1,7 @@
+<!-- prettier-ignore -->
 {% extends 'index.html' %}
 
-{% load widget_tweaks %}
+{% load widget_tweaks i18n %}
 
 {% block content %}
 
@@ -9,11 +10,10 @@
 
     <fieldset>
         <legend>
-            <h2>
-                Create review:
-            </h2>
+            <h2>{% translate 'Create review:' %}</h2>
         </legend>
 
+        <!-- prettier-ignore -->
         {% for hidden in review_form.hidden_fields %}
         {{ hidden }}
         {% endfor %}
@@ -21,7 +21,6 @@
         <div class="tw-my-8">
             {% for field in review_form.visible_fields %}
             <div class="tw-py-4">
-
                 <label
                     for="{{ field.id_for_label }}"
                     class="tw-text-gray-800 tw-text-xl tw-block"
@@ -31,16 +30,14 @@
 
                 {{ field|add_class:"tw_input" }}
 
+                <!-- prettier-ignore -->
                 {% if field.help_text %}
-                <p class="tw-text-gray-600">
-                    {{ field.help_text|safe }}
-                </p>
+                <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
                 {% endif %}
 
+                <!-- prettier-ignore -->
                 {% for err in field.errors %}
-                <p class="tw-text-red-600">
-                    {{ err }}
-                </p>
+                <p class="tw-text-red-600">{{ err }}</p>
                 {% endfor %}
             </div>
             {% endfor %}
@@ -48,6 +45,7 @@
 
         {{ review_form.non_field_errors }}
 
+        <!-- prettier-ignore -->
         {% for hidden in email_form.hidden_fields %}
         {{ hidden }}
         {% endfor %}
@@ -55,7 +53,6 @@
         <div class="tw-my-8">
             {% for field in email_form.visible_fields %}
             <div class="tw-py-4">
-
                 <label
                     for="{{ field.id_for_label }}"
                     class="tw-text-gray-800 tw-text-xl tw-block"
@@ -65,16 +62,14 @@
 
                 {{ field|add_class:"tw_input" }}
 
+                <!-- prettier-ignore -->
                 {% if field.help_text %}
-                <p class="tw-text-gray-600">
-                    {{ field.help_text|safe }}
-                </p>
+                <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
                 {% endif %}
 
+                <!-- prettier-ignore -->
                 {% for err in field.errors %}
-                <p class="tw-text-red-600">
-                    {{ err }}
-                </p>
+                <p class="tw-text-red-600">{{ err }}</p>
                 {% endfor %}
             </div>
             {% endfor %}
@@ -82,11 +77,8 @@
 
         {{ email_form.non_field_errors }}
 
-        <button
-            class="tw_neutral_button tw_button_anchor"
-            type="submit"
-        >
-            SUBMIT
+        <button class="tw_neutral_button tw_button_anchor" type="submit">
+            {{ button_submit|upper }}
         </button>
     </fieldset>
 </form>

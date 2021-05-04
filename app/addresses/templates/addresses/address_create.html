@@ -1,11 +1,12 @@
 <!-- prettier-ignore -->
 {% extends 'index.html' %}
-{% load widget_tweaks %}
+
+{% load widget_tweaks i18n %}
 
 {% block content %}
 <section>
     <header>
-        <h2>Similar addresses:</h2>
+        <h2>{% translate 'Similar addresses:' %}</h2>
     </header>
 
     <!-- prettier-ignore -->
@@ -68,7 +69,7 @@
                         for="suburb"
                         class="tw-text-gray-800 tw-text-xl tw-block"
                     >
-                        Suburb:
+                        {% translate 'Suburb:' %}
                     </label>
                     <input id="suburb" type="text" readonly value="{{ suburb }}" class="tw_select" disabled />
                 </div>
@@ -80,7 +81,7 @@
                         for="suburb"
                         class="tw-text-gray-800 tw-text-xl tw-block"
                     >
-                        City:
+                        {% translate 'City:' %}
                     </label>
                     <input type="text" readonly value="{{ city }}" class="tw_select" disabled />
                 </div>
@@ -92,7 +93,7 @@
                         for="suburb"
                         class="tw-text-gray-800 tw-text-xl tw-block"
                     >
-                        County:
+                        {% translate 'County:' %}
                     </label>
                     <input type="text" readonly value="{{ county }}" class="tw_select" disabled />
                 </div>
@@ -104,7 +105,7 @@
                         for="suburb"
                         class="tw-text-gray-800 tw-text-xl tw-block"
                     >
-                        State district:
+                        {% translate 'State district:' %}
                     </label>
                     <input type="text" readonly value="{{ state_district }}" class="tw_select" disabled />
                 </div>
@@ -116,7 +117,7 @@
                         for="suburb"
                         class="tw-text-gray-800 tw-text-xl tw-block"
                     >
-                        State:
+                        {% translate 'State:' %}
                     </label>
                     <input type="text" readonly value="{{ state }}" class="tw_select" disabled />
                 </div>
@@ -128,7 +129,7 @@
                         for="suburb"
                         class="tw-text-gray-800 tw-text-xl tw-block"
                     >
-                        Postcode:
+                        {% translate 'Postcode:' %}
                     </label>
                     <input type="text" readonly value="{{ postcode }}" class="tw_select" disabled />
                 </div>
@@ -140,7 +141,7 @@
                         for="suburb"
                         class="tw-text-gray-800 tw-text-xl tw-block"
                     >
-                        Country:
+                        {% translate 'Country:' %}
                     </label>
                     <input type="text" readonly value="{{ country }}" class="tw_select" disabled />
                 </div>
@@ -153,7 +154,7 @@
                 type="submit"
                 class="tw_neutral_button tw_button_anchor tw-w-full tw-mt-8"
             >
-                SUBMIT
+                {{ button_submit|upper }}
             </button>
         </fieldset>
     </form>
