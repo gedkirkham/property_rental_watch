@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 
-{% load static compress %}
+<!-- prettier-ignore -->
+{% load static compress i18n %} 
+{% translate 'Property Rental Watch' as title %}
 
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta
             name="description"
-            content="Want to find out how previous tenants rated their experience in your new property? Find out here!"
+            content="{% translate 'Want to find out how previous tenants rated their experience in your new property? Find out here!' %}"
         />
         <meta
             name="keywords"
-            content="property, rental, review, rate, landlord, estate agents, experience"
+            content="{% translate 'property, rental, review, rate, landlord, estate agents, experience' %}"
         />
         <meta name="author" content="Ged Kirkham" />
         <meta name="copyright" content="Ged Kirkham" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>Property Rental Watch</title>
+        <title>{{ title }}</title>
 
         {% compress css %}
         <link
@@ -44,12 +46,17 @@
                     <li class="tw-font-bold">
                         <h1 class="tw-text-center">
                             <a class="tw_main_nav_a" href="{% url 'home' %}">
-                                Property Rental Watch
+                                {{ title }}
                             </a>
                         </h1>
                     </li>
                 </ul>
             </nav>
+
+            <h2>
+                <!-- prettier-ignore -->
+                {% translate 'Good or bad rental experience? Let others know by leaving a review' %}
+            </h2>
         </header>
 
         <main class="main tw-mt-8">
