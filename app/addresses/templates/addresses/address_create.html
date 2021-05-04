@@ -3,6 +3,19 @@
 {% load widget_tweaks %}
 
 {% block content %}
+<section>
+    <header>
+        <h2>Similar addresses:</h2>
+    </header>
+
+    <!-- prettier-ignore -->
+    <ol>
+    {% for address in similar_addresses %}
+        <li><a href="{% url 'addresses:address_detail' address.id %}">{{ address }}</a></li>
+    {% endfor %}
+    </ol>
+</section>
+
 <section
     class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center"
 >

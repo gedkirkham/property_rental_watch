@@ -139,6 +139,8 @@ class AddressCreateView(CreateView):
         context['state_district'] = obj.state_district
         context['state'] = obj.state
         context['postcode'] = obj.postcode
+        context['similar_addresses'] = Address.objects.filter(
+            address_lookup=obj.id)
         return super().get_context_data(**context)
 
     def get_initial(self):
