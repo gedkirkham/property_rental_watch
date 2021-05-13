@@ -3,8 +3,6 @@
 
 {% load i18n %}
 
-{% translate 'ADD REVIEW' as add_review %}
-
 {% block content %}
 <section>
     <header>
@@ -31,7 +29,7 @@
             class="tw_button_anchor"
             href="{% url 'reviews:review_create' %}?addr={{object.id}}"
         >
-            {{ add_review }}
+            {{ add_review|upper }}
         </a>
     </button>
 
@@ -60,7 +58,7 @@
                 class="tw_button_anchor"
                 href="{% url 'reviews:review_create' %}?addr={{object.id}}"
             >
-                {{ add_review }}
+                {{ add_review|upper }}
             </a>
         </button>
     </section>
