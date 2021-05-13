@@ -18,8 +18,9 @@
 
         <ul>
             <li>
-                {% translate 'Average rating:' %} {{
-                average_rating.rating__avg|floatformat }}
+                <!-- prettier-ignore -->
+                {% translate 'Average rating:' %}
+                {{ average_rating.rating__avg|floatformat }}
             </li>
             <li>{% translate 'Reviews:' %} {{ reviews.count }}</li>
         </ul>
