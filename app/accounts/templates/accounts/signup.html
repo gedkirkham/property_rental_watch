@@ -13,7 +13,9 @@
 
             <hr />
 
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% for hidden in form.hidden_fields %}
                     {{ hidden }}
                 {% endfor %}
@@ -28,14 +30,14 @@
                         {{ field.label }}:
                     </label>
 
-                    {{ field|add_class:"tw_input" }}
-
+                    {{ field|add_class:"tw_input" }} {% comment %}
                     <!-- prettier-ignore -->
+                    {% endcomment %}
                     {% if field.help_text %}
                     <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
-                    {% endif %}
-
+                    {% endif %} {% comment %}
                     <!-- prettier-ignore -->
+                    {% endcomment %}
                     {% for err in field.errors %}
                     <p class="tw-text-red-600">{{ err }}</p>
                     {% endfor %}
