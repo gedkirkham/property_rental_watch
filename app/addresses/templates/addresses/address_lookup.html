@@ -5,7 +5,14 @@
 
 {% block content %}
 <section
-    class="tw-mx-auto tw-flex tw-flex-col tw-items-center tw-justify-center tw-py-16"
+    class="
+        tw-mx-auto
+        tw-flex
+        tw-flex-col
+        tw-items-center
+        tw-justify-center
+        tw-py-16
+    "
 >
     <ul>
         <li>
@@ -22,7 +29,9 @@
         {% csrf_token %}
 
         <fieldset>
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% for hidden in form.hidden_fields %}
             {{ hidden }}
             {% endfor %}
@@ -35,17 +44,21 @@
                 {{ field.label }}:
             </label>
 
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {{ field|add_class:"tw_input tw-bg-white"|attr:"autofocus" }}
 
             {% if field.help_text %}
             <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
-            {% endif %}
-
+            {% endif %} {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% for err in field.errors %}
             <p class="tw-text-red-600">{{ err }}</p>
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% endfor %}
             {% endfor %}
 

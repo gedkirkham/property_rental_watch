@@ -13,7 +13,9 @@
             <h2>{% translate 'Create review:' %}</h2>
         </legend>
 
+        {% comment %}
         <!-- prettier-ignore -->
+        {% endcomment %}
         {% for hidden in review_form.hidden_fields %}
         {{ hidden }}
         {% endfor %}
@@ -25,17 +27,17 @@
                     for="{{ field.id_for_label }}"
                     class="tw-text-gray-800 tw-text-xl tw-block"
                 >
-                    {{ field.label }}:
+                    {{ field.label }}: {% if field.field.required %}*{% endif %}
                 </label>
 
-                {{ field|add_class:"tw_input" }}
-
+                {{ field|add_class:"tw_input" }} {% comment %}
                 <!-- prettier-ignore -->
+                {% endcomment %}
                 {% if field.help_text %}
                 <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
-                {% endif %}
-
+                {% endif %} {% comment %}
                 <!-- prettier-ignore -->
+                {% endcomment %}
                 {% for err in field.errors %}
                 <p class="tw-text-red-600">{{ err }}</p>
                 {% endfor %}
@@ -43,9 +45,9 @@
             {% endfor %}
         </div>
 
-        {{ review_form.non_field_errors }}
-
+        {{ review_form.non_field_errors }} {% comment %}
         <!-- prettier-ignore -->
+        {% endcomment %}
         {% for hidden in email_form.hidden_fields %}
         {{ hidden }}
         {% endfor %}
@@ -57,17 +59,17 @@
                     for="{{ field.id_for_label }}"
                     class="tw-text-gray-800 tw-text-xl tw-block"
                 >
-                    {{ field.label }}:
+                    {{ field.label }}: {% if field.field.required %}*{% endif %}
                 </label>
 
-                {{ field|add_class:"tw_input" }}
-
+                {{ field|add_class:"tw_input" }} {% comment %}
                 <!-- prettier-ignore -->
+                {% endcomment %}
                 {% if field.help_text %}
                 <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
-                {% endif %}
-
+                {% endif %} {% comment %}
                 <!-- prettier-ignore -->
+                {% endcomment %}
                 {% for err in field.errors %}
                 <p class="tw-text-red-600">{{ err }}</p>
                 {% endfor %}

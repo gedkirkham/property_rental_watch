@@ -4,23 +4,40 @@
 {% load widget_tweaks i18n %}
 
 {% block content %}
+{% if similar_addresses %}
 <section>
     <header>
         <h2>{% translate 'Similar addresses:' %}</h2>
     </header>
 
+    {% comment %}
     <!-- prettier-ignore -->
+    {% endcomment %}
     <ol>
-    {% for address in similar_addresses %}
-        <li><a href="{% url 'addresses:address_detail' address.id %}">{{ address }}</a></li>
-    {% endfor %}
+        {% for address in similar_addresses %}
+        <li>
+            <a href="{% url 'addresses:address_detail' address.id %}"
+                >{{ address }}</a
+            >
+        </li>
+        {% endfor %}
     </ol>
 </section>
+{% endif %}
 
 <section
-    class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center"
+    class="
+        tw-mx-auto
+        tw-h-full
+        tw-flex
+        tw-flex-col
+        tw-items-center
+        tw-justify-center
+    "
 >
+    {% comment %}
     <!-- prettier-ignore -->
+    {% endcomment %}
     <form
         method="POST"
         class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col tw-pb-8"
@@ -28,7 +45,9 @@
         {% csrf_token %}
 
         <fieldset>
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% for hidden in form.hidden_fields %}
             {{ hidden }}
             {% endfor %}
@@ -38,31 +57,49 @@
                 <div>
                     <label
                         for="{{ field.id_for_label }}"
-                        class="tw-text-gray-800 tw-text-xl tw-block {% if field.id_for_label == 'id_address_lookup' %}tw-hidden{% endif %}"
+                        class="
+                            tw-text-gray-800 tw-text-xl tw-block
+                            {%
+                            if
+                            field.id_for_label
+                            ==
+                            'id_address_lookup'
+                            %}tw-hidden{%
+                            endif
+                            %}
+                        "
                     >
-                        {{ field.label }}{%if field.field.required %}*{% endif %}:
+                        {% comment %}
+                        <!-- prettier-ignore -->
+                        {% endcomment %}
+                        {{ field.label }}{% if field.field.required %}*{% endif %}:
                     </label>
 
-                    {% if forloop.first %}
-                        {{ field|add_class:"tw_select"|attr:"autofocus" }}
-                    {% elif field.id_for_label == 'id_address_lookup' %}
-                        {{ field|add_class:"tw_select tw-hidden" }}
-                    {% else %}
-                        {{ field|add_class:"tw_select {% if abc == 'id_address_lookup' %}tw-hidden{% endif %}" }}
-                    {% endif %}
-                    
+                    {% comment %}
                     <!-- prettier-ignore -->
+                    {% endcomment %}
+                    {% if forloop.first %} 
+                    {{ field|add_class:"tw_select"|attr:"autofocus" }} 
+                    {% elif field.id_for_label == 'id_address_lookup' %} 
+                    {{ field|add_class:"tw_select tw-hidden" }} 
+                    {% else %} 
+                    {{ field|add_class:"tw_select {% if abc == 'id_address_lookup' %}tw-hidden{% endif %}" }} 
+                    {% endif %} {% comment %}
+                    <!-- prettier-ignore -->
+                    {% endcomment %}
                     {% if field.help_text %}
                     <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
-                    {% endif %}
-
+                    {% endif %} {% comment %}
                     <!-- prettier-ignore -->
+                    {% endcomment %}
                     {% for err in field.errors %}
                     <p class="tw-text-red-600">{{ err }}</p>
                     {% endfor %}
                 </div>
-                {% endfor %}
-
+                {% comment %}
+                <!-- prettier-ignore -->
+                {% endcomment %}
+                {% endfor %} 
                 {% if suburb %}
                 <div>
                     <label
@@ -71,10 +108,19 @@
                     >
                         {% translate 'Suburb:' %}
                     </label>
-                    <input id="suburb" type="text" readonly value="{{ suburb }}" class="tw_select" disabled />
+                    <input
+                        id="suburb"
+                        type="text"
+                        readonly
+                        value="{{ suburb }}"
+                        class="tw_select"
+                        disabled
+                    />
                 </div>
-                {% endif %}
-                
+                {% comment %}
+                <!-- prettier-ignore -->
+                {% endcomment %}
+                {% endif %} 
                 {% if city %}
                 <div>
                     <label
@@ -83,10 +129,18 @@
                     >
                         {% translate 'City:' %}
                     </label>
-                    <input type="text" readonly value="{{ city }}" class="tw_select" disabled />
+                    <input
+                        type="text"
+                        readonly
+                        value="{{ city }}"
+                        class="tw_select"
+                        disabled
+                    />
                 </div>
-                {% endif %}
-
+                {% comment %}
+                <!-- prettier-ignore -->
+                {% endcomment %}
+                {% endif %} 
                 {% if county %}
                 <div>
                     <label
@@ -95,10 +149,18 @@
                     >
                         {% translate 'County:' %}
                     </label>
-                    <input type="text" readonly value="{{ county }}" class="tw_select" disabled />
+                    <input
+                        type="text"
+                        readonly
+                        value="{{ county }}"
+                        class="tw_select"
+                        disabled
+                    />
                 </div>
-                {% endif %}
-
+                {% comment %}
+                <!-- prettier-ignore -->
+                {% endcomment %}
+                {% endif %} 
                 {% if state_district %}
                 <div>
                     <label
@@ -107,10 +169,18 @@
                     >
                         {% translate 'State district:' %}
                     </label>
-                    <input type="text" readonly value="{{ state_district }}" class="tw_select" disabled />
+                    <input
+                        type="text"
+                        readonly
+                        value="{{ state_district }}"
+                        class="tw_select"
+                        disabled
+                    />
                 </div>
-                {% endif %}
-
+                {% comment %}
+                <!-- prettier-ignore -->
+                {% endcomment %}
+                {% endif %} 
                 {% if state %}
                 <div>
                     <label
@@ -119,10 +189,18 @@
                     >
                         {% translate 'State:' %}
                     </label>
-                    <input type="text" readonly value="{{ state }}" class="tw_select" disabled />
+                    <input
+                        type="text"
+                        readonly
+                        value="{{ state }}"
+                        class="tw_select"
+                        disabled
+                    />
                 </div>
-                {% endif %}
-
+                {% comment %}
+                <!-- prettier-ignore -->
+                {% endcomment %}
+                {% endif %} 
                 {% if postcode %}
                 <div>
                     <label
@@ -131,10 +209,18 @@
                     >
                         {% translate 'Postcode:' %}
                     </label>
-                    <input type="text" readonly value="{{ postcode }}" class="tw_select" disabled />
+                    <input
+                        type="text"
+                        readonly
+                        value="{{ postcode }}"
+                        class="tw_select"
+                        disabled
+                    />
                 </div>
-                {% endif %}
-
+                {% comment %}
+                <!-- prettier-ignore -->
+                {% endcomment %}
+                {% endif %} 
                 {% if country %}
                 <div>
                     <label
@@ -143,7 +229,13 @@
                     >
                         {% translate 'Country:' %}
                     </label>
-                    <input type="text" readonly value="{{ country }}" class="tw_select" disabled />
+                    <input
+                        type="text"
+                        readonly
+                        value="{{ country }}"
+                        class="tw_select"
+                        disabled
+                    />
                 </div>
                 {% endif %}
             </div>

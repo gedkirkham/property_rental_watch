@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
+{% comment %}
 <!-- prettier-ignore -->
+{% endcomment %} 
 {% load static compress i18n %} 
 {% translate 'Property Rental Watch' as title %}
 {% translate 'Submit' as button_submit %}
@@ -38,12 +40,21 @@
     </head>
 
     <body
-        class="tw-container tw-mx-auto tw-bg-warmGray-100 tw-w-11/12 sm:tw-w-full"
+        class="
+            tw-container tw-mx-auto tw-bg-warmGray-100 tw-w-11/12
+            sm:tw-w-full
+        "
     >
         <header class="header">
             <nav class="tw-mt-8">
                 <ul
-                    class="tw-text-4xl tw-flex tw-justify-between tw-items-baseline tw-space-x-12"
+                    class="
+                        tw-text-4xl
+                        tw-flex
+                        tw-justify-between
+                        tw-items-baseline
+                        tw-space-x-12
+                    "
                 >
                     <li class="tw-font-bold">
                         <h1 class="tw-text-center">
@@ -56,13 +67,17 @@
             </nav>
 
             <h2>
+                {% comment %}
                 <!-- prettier-ignore -->
+                {% endcomment %}
                 {% translate 'Good or bad rental experience? Let others know by leaving a review' %}
             </h2>
         </header>
 
         <main class="main tw-mt-8">
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% block content %}
             {% endblock %}
         </main>

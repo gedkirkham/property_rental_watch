@@ -16,10 +16,19 @@
 {% endif %}
 
 <section
-    class="tw-mx-auto tw-h-full tw-flex tw-flex-col tw-items-center tw-justify-center"
+    class="
+        tw-mx-auto
+        tw-h-full
+        tw-flex
+        tw-flex-col
+        tw-items-center
+        tw-justify-center
+    "
 >
     <p style="margin: 16px 0 86px 0">
+        {% comment %}
         <!-- prettier-ignore -->
+        {% endcomment %}
         {% translate 'To locate your property, please start by selecting the country from the list below.' %}
     </p>
 
@@ -27,12 +36,16 @@
         {% csrf_token %}
 
         <fieldset>
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% for hidden in form.hidden_fields %} 
             {{ hidden }} 
             {% endfor %}
 
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% for field in form.visible_fields %}
             <label
                 for="{{ field.id_for_label }}"
@@ -41,17 +54,21 @@
                 {{ field.label }}:
             </label>
 
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {{ field|add_class:"tw_select" }} 
             
             {% if field.help_text %}
             <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
-            {% endif %}
-
+            {% endif %} {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% for err in field.errors %}
             <p class="tw-text-red-600">{{ err }}</p>
+            {% comment %}
             <!-- prettier-ignore -->
+            {% endcomment %}
             {% endfor %} 
             {% endfor %} 
             
