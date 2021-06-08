@@ -73,7 +73,7 @@
                     <!-- prettier-ignore -->
                     {% endcomment %}
                     {% if forloop.first %} 
-                    {{ field|add_class:"tw_select"|attr:"autofocus" }} 
+                    {{ field|add_class:"tw_select" }} 
                     {% elif field.id_for_label == 'id_address_lookup' %} 
                     {{ field|add_class:"tw_select tw-hidden" }} 
                     {% else %} 
