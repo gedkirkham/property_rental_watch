@@ -13,6 +13,8 @@ services:
             - test.env
         depends_on:
             - db
+        environment:
+            - PYTHONUNBUFFERED=1
     db:
         image: postgres
         env_file:
