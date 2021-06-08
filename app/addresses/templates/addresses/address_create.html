@@ -55,18 +55,12 @@
             <div class="tw-space-y-4">
                 {% for field in form.visible_fields %}
                 <div>
+                    <!-- prettier-ignore -->
                     <label
                         for="{{ field.id_for_label }}"
                         class="
                             tw-text-gray-800 tw-text-xl tw-block
-                            {%
-                            if
-                            field.id_for_label
-                            ==
-                            'id_address_lookup'
-                            %}tw-hidden{%
-                            endif
-                            %}
+                            {% if field.id_for_label == 'id_address_lookup' %}tw-hidden{% endif %}
                         "
                     >
                         {% comment %}
