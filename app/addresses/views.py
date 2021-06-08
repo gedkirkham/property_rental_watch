@@ -37,7 +37,7 @@ class AddressLookupView(CreateView):
 
     def get_context_data(self, **kwargs):
         """Include the users selected country in the views context."""
-        context = {}
+        context = kwargs
         context['country'] = dict(country_choices)[
             self.request.GET['country'].upper()]
         return super().get_context_data(**context)
