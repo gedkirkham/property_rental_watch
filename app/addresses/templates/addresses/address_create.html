@@ -39,6 +39,7 @@
     <!-- prettier-ignore -->
     {% endcomment %}
     <form
+        action="{% url 'addresses:address_create' %}"
         method="POST"
         class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col tw-pb-8"
     >
@@ -48,12 +49,49 @@
             {% comment %}
             <!-- prettier-ignore -->
             {% endcomment %}
-            {% for hidden in form.hidden_fields %}
+            {% for hidden in address_form.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
+
+            {% for hidden in address_lookup_form.hidden_fields %}
             {{ hidden }}
             {% endfor %}
 
             <div class="tw-space-y-4">
-                {% for field in form.visible_fields %}
+                <!-- prettier-ignore -->
+                {% for field in address_form.visible_fields %}
+                <div>
+                    <!-- prettier-ignore -->
+                    <label
+                        for="{{ field.id_for_label }}"
+                        class="tw-text-gray-800 tw-text-xl tw-block"
+                    >
+                        {% comment %}
+                        <!-- prettier-ignore -->
+                        {% endcomment %}
+                        {{ field.label }}{% if field.field.required %}*{% endif %}:
+                    </label>
+
+                    {% comment %}
+                    <!-- prettier-ignore -->
+                    {% endcomment %}
+                    {{ field|add_class:"tw_input tw-bg-white" }}
+                    
+                    {% if field.help_text %}
+                    <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
+                    {% endif %} {% comment %}
+                    <!-- prettier-ignore -->
+                    {% endcomment %}
+                    {% for err in field.errors %}
+                    <p class="tw-text-red-600">{{ err }}</p>
+                    {% endfor %}
+                </div>
+                {% comment %}
+                <!-- prettier-ignore -->
+                {% endcomment %}
+                {% endfor %}
+
+                {% for field in address_lookup_form.visible_fields %}
                 <div>
                     <!-- prettier-ignore -->
                     <label
@@ -72,13 +110,8 @@
                     {% comment %}
                     <!-- prettier-ignore -->
                     {% endcomment %}
-                    {% if forloop.first %} 
-                    {{ field|add_class:"tw_select" }} 
-                    {% elif field.id_for_label == 'id_address_lookup' %} 
-                    {{ field|add_class:"tw_select tw-hidden" }} 
-                    {% else %} 
-                    {{ field|add_class:"tw_select {% if abc == 'id_address_lookup' %}tw-hidden{% endif %}" }} 
-                    {% endif %} {% comment %}
+                    {{ field|add_class:"tw_input tw-bg-white" }}
+                    {% comment %}
                     <!-- prettier-ignore -->
                     {% endcomment %}
                     {% if field.help_text %}
@@ -90,159 +123,20 @@
                     <p class="tw-text-red-600">{{ err }}</p>
                     {% endfor %}
                 </div>
-                {% comment %}
+                {% endfor %} {% comment %}
                 <!-- prettier-ignore -->
                 {% endcomment %}
-                {% endfor %} 
-                {% if suburb %}
-                <div>
-                    <label
-                        for="suburb"
-                        class="tw-text-gray-800 tw-text-xl tw-block"
-                    >
-                        {% translate 'Suburb:' %}
-                    </label>
-                    <input
-                        id="suburb"
-                        type="text"
-                        readonly
-                        value="{{ suburb }}"
-                        class="tw_select"
-                        disabled
-                    />
-                </div>
-                {% comment %}
-                <!-- prettier-ignore -->
-                {% endcomment %}
-                {% endif %} 
-                {% if city %}
-                <div>
-                    <label
-                        for="suburb"
-                        class="tw-text-gray-800 tw-text-xl tw-block"
-                    >
-                        {% translate 'City:' %}
-                    </label>
-                    <input
-                        type="text"
-                        readonly
-                        value="{{ city }}"
-                        class="tw_select"
-                        disabled
-                    />
-                </div>
-                {% comment %}
-                <!-- prettier-ignore -->
-                {% endcomment %}
-                {% endif %} 
-                {% if county %}
-                <div>
-                    <label
-                        for="suburb"
-                        class="tw-text-gray-800 tw-text-xl tw-block"
-                    >
-                        {% translate 'County:' %}
-                    </label>
-                    <input
-                        type="text"
-                        readonly
-                        value="{{ county }}"
-                        class="tw_select"
-                        disabled
-                    />
-                </div>
-                {% comment %}
-                <!-- prettier-ignore -->
-                {% endcomment %}
-                {% endif %} 
-                {% if state_district %}
-                <div>
-                    <label
-                        for="suburb"
-                        class="tw-text-gray-800 tw-text-xl tw-block"
-                    >
-                        {% translate 'State district:' %}
-                    </label>
-                    <input
-                        type="text"
-                        readonly
-                        value="{{ state_district }}"
-                        class="tw_select"
-                        disabled
-                    />
-                </div>
-                {% comment %}
-                <!-- prettier-ignore -->
-                {% endcomment %}
-                {% endif %} 
-                {% if state %}
-                <div>
-                    <label
-                        for="suburb"
-                        class="tw-text-gray-800 tw-text-xl tw-block"
-                    >
-                        {% translate 'State:' %}
-                    </label>
-                    <input
-                        type="text"
-                        readonly
-                        value="{{ state }}"
-                        class="tw_select"
-                        disabled
-                    />
-                </div>
-                {% comment %}
-                <!-- prettier-ignore -->
-                {% endcomment %}
-                {% endif %} 
-                {% if postcode %}
-                <div>
-                    <label
-                        for="suburb"
-                        class="tw-text-gray-800 tw-text-xl tw-block"
-                    >
-                        {% translate 'Postcode:' %}
-                    </label>
-                    <input
-                        type="text"
-                        readonly
-                        value="{{ postcode }}"
-                        class="tw_select"
-                        disabled
-                    />
-                </div>
-                {% comment %}
-                <!-- prettier-ignore -->
-                {% endcomment %}
-                {% endif %} 
-                {% if country %}
-                <div>
-                    <label
-                        for="suburb"
-                        class="tw-text-gray-800 tw-text-xl tw-block"
-                    >
-                        {% translate 'Country:' %}
-                    </label>
-                    <input
-                        type="text"
-                        readonly
-                        value="{{ country }}"
-                        class="tw_select"
-                        disabled
-                    />
-                </div>
-                {% endif %}
+                {{ address_form.non_field_errors }} 
+                {{ address_lookup_form.non_field_errors }}
             </div>
-
-            {{ form.non_field_errors }}
-
-            <button
-                type="submit"
-                class="tw_neutral_button tw_button_anchor tw-w-full tw-mt-8"
-            >
-                {{ button_submit|upper }}
-            </button>
         </fieldset>
+
+        <button
+            type="submit"
+            class="tw_neutral_button tw_button_anchor tw-w-full tw-mt-8"
+        >
+            {{ button_submit|upper }}
+        </button>
     </form>
 </section>
 {% endblock %}
