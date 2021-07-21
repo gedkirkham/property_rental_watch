@@ -13,6 +13,11 @@ from geopy.geocoders import Nominatim
 
 
 class AddressDetailView(DetailView):
+    """
+    Provides more detailed information related to the address. This includes
+    related reviews etc.
+    """
+
     model = Address
     template_name = "addresses/address_detail.html"
 
