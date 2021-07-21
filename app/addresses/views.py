@@ -40,7 +40,7 @@ class AddressLookupView(CreateView):
 
     model = AddressLookup
     template_name = "addresses/address_lookup.html"
-    form_class = AddressLookupForm
+    form_class = AddressPostcodeLookupForm
 
     def get_context_data(self, **kwargs):
         """Include the users selected country in the views context."""
@@ -81,32 +81,28 @@ class AddressLookupView(CreateView):
             location = geolocator.geocode(
                 {'postalcode': postcode}, addressdetails=True, country_codes=country_code)
             if location:
-                self.object.place_id = location.raw['place_id']
-                self.object.lat = location.raw['lat']
-                self.object.lon = location.raw['lon']
-                self.object.display_name = location.raw['display_name']
-                self.object.address_class = location.raw['class']
-                self.object.importance = location.raw['importance']
-                if 'address' in location.raw:
-                    if 'county' in location.raw['address']:
-                        self.object.county = location.raw['address']['county']
-                    if 'city' in location.raw['address']:
-                        self.object.city = location.raw['address']['city']
-                    if 'country' in location.raw['address']:
-                        self.object.country = location.raw['address']['country']
-                    if 'country_code' in location.raw['address']:
-                        self.object.country_code = location.raw['address']['country_code'].lower(
-                        )
-                    if 'postcode' in location.raw['address']:
-                        self.object.postcode = location.raw['address']['postcode'].upper(
-                        )
-                    if 'state_district' in location.raw['address']:
-                        self.object.state_district = location.raw['address']['state_district']
-                    if 'state' in location.raw['address']:
-                        self.object.state = location.raw['address']['state']
-                    if 'suburb' in location.raw['address']:
-                        self.object.suburb = location.raw['address']['suburb']
-
+                location_raw = location.raw
+                self.object.place_id = location_raw['place_id']
+                self.object.lat = location_raw['lat']
+                self.object.lon = location_raw['lon']
+                self.object.display_name = location_raw['display_name']
+                self.object.address_class = location_raw['class']
+                self.object.importance = location_raw['importance']
+                if 'address' in location_raw:
+                    address = location_raw['address']
+                    self.object.county = address.get('county', '')
+                    self.object.city = address.get('city', '')
+                    self.object.country = address.get('country', '')
+                    country_code = address.get('country_code', '')
+                    if country_code:
+                        self.object.country_code = country_code.lower()
+                    postcode = address.get('postcode', '')
+                    if postcode:
+                        self.object.postcode = postcode.upper()
+                    self.object.state_district = address.get(
+                        'state_district', '')
+                    self.object.state = address.get('state', '')
+                    self.object.suburb = address.get('suburb', '')
                 self.object.save()
                 return HttpResponseRedirect(self.get_success_url())
             else:
