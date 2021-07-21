@@ -22,6 +22,8 @@ class AddressDetailView(DetailView):
             address=self.object, user__isnull=False)
         context["reviews"] = reviews
         context["average_rating"] = reviews.aggregate(Avg('rating'))
+        context['address_lookup'] = AddressLookup.objects.filter(
+            pk=self.object.address_lookup.pk).values()[0]
         return context
 
 
