@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import Address, AddressLookup
 from reviews.models import Review
-from .forms import AddressLookupForm, AddressCreateForm, country_choices
+from .constants import country_choices
 
 from geopy.geocoders import Nominatim
 
