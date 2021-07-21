@@ -15,25 +15,25 @@ class AddressCreateForm(forms.ModelForm):
         """Meta definition for AddressCreateform."""
 
         model = Address
-        fields = ('num_or_name', 'street_1', 'street_2',
-                  'address_lookup')
-
-    def __init__(self, *args, **kwargs):
-        """
-        Initialise address_lookup field with queryset. Queryset determined 
-        by HTTP query form.
-        """
-        super(AddressCreateForm, self).__init__(*args, **kwargs)
-        obj = AddressLookup.objects.filter(
-            id=kwargs['initial']['address_lookup'].pk)
-        self.fields['address_lookup'].queryset = obj
+        fields = ('num_or_name', 'street_1', 'street_2')
 
 
 class AddressLookupForm(forms.ModelForm):
-    """Form definition for PostCodeLookup."""
+    """Form definition for AddressLookup."""
 
     class Meta:
         """Meta definition for AddressLookupForm."""
+
+        model = AddressLookup
+        fields = ['suburb', 'city', 'county', 'country',
+                  'state_district', 'state', 'postcode']
+
+
+class AddressPostcodeLookupForm(forms.ModelForm):
+    """Form definition for PostCodeLookup."""
+
+    class Meta:
+        """Meta definition for AddressPostcodeLookupForm."""
 
         model = AddressLookup
         fields = ('postcode',)
