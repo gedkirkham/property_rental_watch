@@ -58,4 +58,8 @@ class AddressLookup(models.Model):
 
     def __str__(self):
         """Unicode representation of AddressLookup."""
-        return self.display_name
+        if self.display_name:
+            return self.display_name
+        address_as_list = [self.suburb, self.city, self.county, self.state,
+                           self.country, self.state_district, self.postcode, self.country_code]
+        return ', '.join(filter(None, address_as_list))
