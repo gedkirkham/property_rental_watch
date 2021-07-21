@@ -20,7 +20,10 @@ class Address(models.Model):
 
     def __str__(self):
         """Unicode representation of Address."""
-        return f"{self.num_or_name}, {self.street_1}, {self.address_lookup}"
+        text = f"{self.num_or_name}, {self.street_1}"
+        if self.street_2:
+            text += f", {self.street_2}"
+        return text
 
     def get_absolute_url(self):
         return reverse_lazy('addresses:address_detail', kwargs={'pk': self.pk})
