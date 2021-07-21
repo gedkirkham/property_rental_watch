@@ -35,7 +35,7 @@ class AddressDetailView(DetailView):
 class AddressLookupView(CreateView):
     """
     View where user submits postcode. Address lookup is then completed to
-    return full address.
+    return related address.
     """
 
     model = AddressLookup
