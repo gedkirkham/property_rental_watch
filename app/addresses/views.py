@@ -107,12 +107,6 @@ class AddressLookupView(CreateView):
                 return HttpResponseRedirect(self.get_success_url())
             else:
                 message = f'Invalid {country_code.upper()} postcode'
-                if country_code == 'gb':
-                    if len(postcode) == 6:
-                        postcode = postcode.upper()
-                        postcode = f'"{postcode[0]}{postcode[1]}{postcode[2]} {postcode[3]}{postcode[4]}{postcode[5]}"'
-                        message = f'{message}. Did you mean {postcode}? Please take note of any spaces between characters'
-
                 form.add_error('postcode', _(message))
                 return super(AddressLookupView, self).form_invalid(form)
 
