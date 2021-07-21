@@ -34,18 +34,21 @@ class AddressLookup(models.Model):
 
     address_class = models.CharField(_('Class'), max_length=50)
     city = models.CharField(_('City'), max_length=50)
-    county = models.CharField(_('County'), max_length=50)
-    country = models.CharField(_('Country'), max_length=50)
-    country_code = models.CharField(_('Country code'), max_length=50)
-    display_name = models.CharField(_('Display name'), max_length=100)
-    importance = models.FloatField()
-    lat = models.FloatField()
-    lon = models.FloatField()
-    place_id = models.IntegerField()
+    county = models.CharField(_('County'), max_length=50, blank=True)
+    country = models.CharField(_('Country'), max_length=50, blank=True)
+    country_code = models.CharField(
+        _('Country code'), max_length=50, blank=True)
+    display_name = models.CharField(
+        _('Display name'), max_length=100, blank=True)
+    importance = models.FloatField(blank=True, null=True)
+    lat = models.FloatField(blank=True, null=True)
+    lon = models.FloatField(blank=True, null=True)
+    place_id = models.IntegerField(blank=True, null=True)
     postcode = models.CharField(_('Postcode'), max_length=50)
-    state_district = models.CharField(_('State district'), max_length=50)
-    state = models.CharField(_('State'), max_length=50)
-    suburb = models.CharField(_('Suburb'), max_length=50)
+    state_district = models.CharField(
+        _('State district'), max_length=50, blank=True)
+    state = models.CharField(_('State'), max_length=50, blank=True)
+    suburb = models.CharField(_('Suburb'), max_length=50, blank=True)
 
     class Meta:
         """Meta definition for AddressLookup."""
