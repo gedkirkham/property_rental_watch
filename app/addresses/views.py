@@ -1,12 +1,15 @@
-from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, CreateView
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import DetailView, CreateView, TemplateView
 from django.db.models import Avg
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, QueryDict
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 from .models import Address, AddressLookup
 from reviews.models import Review
+from .forms import AddressPostcodeLookupForm, AddressCreateForm, \
+    AddressLookupForm
 from .constants import country_choices
 
 from geopy.geocoders import Nominatim
@@ -106,60 +109,109 @@ class AddressLookupView(CreateView):
                 self.object.save()
                 return HttpResponseRedirect(self.get_success_url())
             else:
+                # TODO: add to translation
                 message = f'Invalid {country_code.upper()} postcode'
                 form.add_error('postcode', _(message))
                 return super(AddressLookupView, self).form_invalid(form)
 
 
-class AddressCreateView(CreateView):
+class AddressCreateView(TemplateView):
     """
-    Generates address form with pre-populated fields. Fields pre-populated as
-    user provided postcode in previous form and lookup was completed to internal
-    or external database dependent on condition.
+    Generates address form with pre-populated or empty fields. Fields are
+    pre-populated as user provided postcode in previous form and lookup was
+    completed to internal or external database dependent on condition.
     """
 
-    model = Address
     template_name = "addresses/address_create.html"
-    form_class = AddressCreateForm
+    address_form_class = AddressCreateForm
+    address_lookup_form_class = AddressLookupForm
 
-    def get_context_data(self, **kwargs):
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+    def post(self, request):
+        address_form, address_lookup_form = self._init_forms()
+
+        if address_form.is_valid() and address_lookup_form.is_valid():
+            address = self._get_or_create_address(
+                address_form=address_form)
+            address_lookup = self._get_or_create_address_lookup(
+                address_lookup_form=address_lookup_form)
+            address.address_lookup = address_lookup
+            address.save()
+            return redirect(reverse_lazy('addresses:address_detail', kwargs={'pk': address.pk}))
+
+        context = self.get_context_data(
+            address_form=address_form, address_lookup_form=address_lookup_form, similar_addresses='')
+
+        return self.render_to_response(context)
+
+    def _init_forms(self):
         """
-        Get data from model and update context so that form fields can be 
-        pre-populated with data.
+        Initialise data in forms. If address_lookup query param is passed,
+        add address data to form.
         """
-        context = {}
-        obj = get_object_or_404(
-            AddressLookup, id=self.request.GET['address_lookup'])
-        context['city'] = obj.city
-        context['suburb'] = obj.suburb
-        context['county'] = obj.county
-        context['country'] = obj.country
-        context['state_district'] = obj.state_district
-        context['state'] = obj.state
-        context['postcode'] = obj.postcode
-        context['similar_addresses'] = Address.objects.filter(
-            address_lookup=obj.id)
-        return super().get_context_data(**context)
 
-    def get_initial(self):
-        """Set field to be included within form."""
-        dict = {
-            'address_lookup': get_object_or_404(AddressLookup, id=self.request.GET['address_lookup'])
-        }
-        self.initial = dict
-        return self.initial.copy()
+        post_data = self.request.POST or None
+        address_form = self.address_form_class(post_data, prefix='address')
 
-    def form_valid(self, form):
-        """If the form is valid, save the associated model."""
-        self.object = form.save(commit=False)
+        address_lookup_kwarg = self.request.GET.get('address_lookup', None)
+        initial = None
+        if address_lookup_kwarg:
+            address_lookup = get_object_or_404(
+                AddressLookup, pk=address_lookup_kwarg)
+            initial = {'suburb': address_lookup.suburb, 'city': address_lookup.city, 'county': address_lookup.county, 'country': address_lookup.country,
+                       'state_district': address_lookup.state_district, 'state': address_lookup.state, 'postcode': address_lookup.postcode}
+        address_lookup_form = self.address_lookup_form_class(
+            post_data, prefix="address_lookup", initial=initial)
 
-        queryset = Address.objects.filter(num_or_name=self.object.num_or_name.lower(
-        ), street_1=self.object.street_1.lower(), street_2=self.object.street_2.lower(), address_lookup=self.object.address_lookup)
-        if queryset.count() > 0:
-            self.object = queryset.first()
-        else:
-            self.object.save()
+        return address_form, address_lookup_form
 
-        self.success_url = reverse_lazy(
-            'addresses:address_detail', kwargs={'pk': self.object.pk})
-        return HttpResponseRedirect(self.get_success_url())
+    def _get_or_create_address(self, address_form):
+        """
+        Get data from form and determine if address is already in database. If
+        true, return address, otherwise create a new address object.
+        """
+
+        num_or_name = address_form.cleaned_data['num_or_name']
+        street_1 = address_form.cleaned_data['street_1']
+        street_2 = address_form.cleaned_data['street_2']
+
+        try:
+            address = Address.objects.get(
+                num_or_name__iexact=num_or_name, street_1__iexact=street_1, street_2__iexact=street_2)
+        except ObjectDoesNotExist:
+            address = Address(num_or_name=num_or_name,
+                              street_1=street_1, street_2=street_2)
+        except MultipleObjectsReturned:
+            address = Address.objects.filter(
+                num_or_name__iexact=num_or_name, street_1__iexact=street_1, street_2__iexact=street_2).first()
+        finally:
+            return address
+
+    def _get_or_create_address_lookup(self, address_lookup_form):
+        """
+        Get data from form and determine if address_lookup is already in database. If
+        true, return address, otherwise create a new address_lookup object.
+        """
+
+        suburb = address_lookup_form.cleaned_data['suburb']
+        city = address_lookup_form.cleaned_data['city']
+        county = address_lookup_form.cleaned_data['county']
+        country = address_lookup_form.cleaned_data['country']
+        state_district = address_lookup_form.cleaned_data['state_district']
+        state = address_lookup_form.cleaned_data['state']
+        postcode = address_lookup_form.cleaned_data['postcode']
+
+        try:
+            address_lookup = AddressLookup.objects.get(
+                suburb__iexact=suburb, city__iexact=city, county__iexact=county, country__iexact=country, state_district__iexact=state_district, state__iexact=state, postcode__iexact=postcode)
+        except ObjectDoesNotExist:
+            address_lookup = AddressLookup(suburb=suburb, city=city, county=county, country=country,
+                                           state_district=state_district, state=state, postcode=postcode)
+            address_lookup.save()
+        except MultipleObjectsReturned:
+            address_lookup = AddressLookup.objects.filter(
+                suburb__iexact=suburb, city__iexact=city, county__iexact=county, country__iexact=country, state_district__iexact=state_district, state__iexact=state, postcode__iexact=postcode).first()
+        finally:
+            return address_lookup
