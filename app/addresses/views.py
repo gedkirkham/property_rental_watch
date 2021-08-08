@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import DetailView, CreateView, TemplateView
-from django.db.models import Avg
+from django.db.models import Avg, Q
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, QueryDict
 from django.utils.translation import gettext_lazy as _
@@ -58,7 +58,8 @@ class AddressLookupView(CreateView):
         query_dictionary = QueryDict('', mutable=True)
         query_dictionary.update(
             {
-                'address_lookup': self.object.id
+                'address_lookup': self.object.id,
+                'postcode': self.object.postcode,
             }
         )
         base_url = reverse_lazy('addresses:address_create')
@@ -141,8 +142,9 @@ class AddressCreateView(TemplateView):
             address.save()
             return redirect(reverse_lazy('addresses:address_detail', kwargs={'pk': address.pk}))
 
+        similar_addresses = self._get_similar_addresses()
         context = self.get_context_data(
-            address_form=address_form, address_lookup_form=address_lookup_form, similar_addresses='')
+            address_form=address_form, address_lookup_form=address_lookup_form, similar_addresses=similar_addresses)
 
         return self.render_to_response(context)
 
@@ -215,3 +217,15 @@ class AddressCreateView(TemplateView):
                 suburb__iexact=suburb, city__iexact=city, county__iexact=county, country__iexact=country, state_district__iexact=state_district, state__iexact=state, postcode__iexact=postcode).first()
         finally:
             return address_lookup
+
+    def _get_similar_addresses(self):
+        """
+        Locate similar addresses by postcode and return queryset.
+        """
+
+        postcode = self.request.GET.get('postcode', None)
+        similar_addresses = None
+        if postcode:
+            similar_addresses = Address.objects.filter(Q(address_lookup__postcode__iexact=postcode) | Q(
+                address_lookup__postcode__iexact=postcode.replace(" ", "")))
+        return similar_addresses
