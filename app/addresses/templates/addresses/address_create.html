@@ -4,51 +4,22 @@
 {% load widget_tweaks i18n %}
 
 {% block content %}
-{% if similar_addresses %}
-<section>
-    <header>
-        <h2>{% translate 'Similar addresses:' %}</h2>
-    </header>
+<div class="tw-flex tw-flex-row">
+    <section class="tw-w-1/2 tw-h-full tw-flex tw-flex-col tw-justify-center">
+        {% comment %}
+        <!-- prettier-ignore -->
+        {% endcomment %}
+        <form
+            action="{% url 'addresses:address_create' %}"
+            method="POST"
+            class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col tw-pb-8"
+        >
+            {% csrf_token %}
 
-    {% comment %}
-    <!-- prettier-ignore -->
-    {% endcomment %}
-    <ol>
-        {% for address in similar_addresses %}
-        <li>
-            <a href="{% url 'addresses:address_detail' address.id %}"
-                >{{ address }}</a
-            >
-        </li>
-        {% endfor %}
-    </ol>
-</section>
-{% endif %}
-
-<section
-    class="
-        tw-mx-auto
-        tw-h-full
-        tw-flex
-        tw-flex-col
-        tw-items-center
-        tw-justify-center
-    "
->
-    {% comment %}
-    <!-- prettier-ignore -->
-    {% endcomment %}
-    <form
-        action="{% url 'addresses:address_create' %}"
-        method="POST"
-        class="tw-w-full sm:tw-w-96 tw-flex tw-flex-col tw-pb-8"
-    >
-        {% csrf_token %}
-
-        <fieldset>
-            {% comment %}
-            <!-- prettier-ignore -->
-            {% endcomment %}
+            <fieldset>
+                {% comment %}
+                <!-- prettier-ignore -->
+                {% endcomment %}
             {% for hidden in address_form.hidden_fields %}
             {{ hidden }}
             {% endfor %}
@@ -57,12 +28,12 @@
             {{ hidden }}
             {% endfor %}
 
-            <div class="tw-space-y-4">
-                <!-- prettier-ignore -->
-                {% for field in address_form.visible_fields %}
-                <div>
+                <div class="tw-space-y-4">
                     <!-- prettier-ignore -->
-                    <label
+                    {% for field in address_form.visible_fields %}
+                    <div>
+                        <!-- prettier-ignore -->
+                        <label
                         for="{{ field.id_for_label }}"
                         class="tw-text-gray-800 tw-text-xl tw-block"
                     >
@@ -72,29 +43,31 @@
                         {{ field.label }}{% if field.field.required %}*{% endif %}:
                     </label>
 
-                    {% comment %}
-                    <!-- prettier-ignore -->
-                    {% endcomment %}
+                        {% comment %}
+                        <!-- prettier-ignore -->
+                        {% endcomment %}
                     {{ field|add_class:"tw_input tw-bg-white" }}
                     
                     {% if field.help_text %}
-                    <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
-                    {% endif %} {% comment %}
+                        <p class="tw-text-gray-600">
+                            {{ field.help_text|safe }}
+                        </p>
+                        {% endif %} {% comment %}
+                        <!-- prettier-ignore -->
+                        {% endcomment %}
+                    {% for err in field.errors %}
+                        <p class="tw-text-red-600">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+                    {% comment %}
                     <!-- prettier-ignore -->
                     {% endcomment %}
-                    {% for err in field.errors %}
-                    <p class="tw-text-red-600">{{ err }}</p>
-                    {% endfor %}
-                </div>
-                {% comment %}
-                <!-- prettier-ignore -->
-                {% endcomment %}
                 {% endfor %}
 
                 {% for field in address_lookup_form.visible_fields %}
-                <div>
-                    <!-- prettier-ignore -->
-                    <label
+                    <div>
+                        <!-- prettier-ignore -->
+                        <label
                         for="{{ field.id_for_label }}"
                         class="
                             tw-text-gray-800 tw-text-xl tw-block
@@ -107,36 +80,66 @@
                         {{ field.label }}{% if field.field.required %}*{% endif %}:
                     </label>
 
-                    {% comment %}
-                    <!-- prettier-ignore -->
-                    {% endcomment %}
+                        {% comment %}
+                        <!-- prettier-ignore -->
+                        {% endcomment %}
                     {{ field|add_class:"tw_input tw-bg-white" }}
                     {% comment %}
-                    <!-- prettier-ignore -->
-                    {% endcomment %}
+                        <!-- prettier-ignore -->
+                        {% endcomment %}
                     {% if field.help_text %}
-                    <p class="tw-text-gray-600">{{ field.help_text|safe }}</p>
-                    {% endif %} {% comment %}
+                        <p class="tw-text-gray-600">
+                            {{ field.help_text|safe }}
+                        </p>
+                        {% endif %} {% comment %}
+                        <!-- prettier-ignore -->
+                        {% endcomment %}
+                    {% for err in field.errors %}
+                        <p class="tw-text-red-600">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %} {% comment %}
                     <!-- prettier-ignore -->
                     {% endcomment %}
-                    {% for err in field.errors %}
-                    <p class="tw-text-red-600">{{ err }}</p>
-                    {% endfor %}
-                </div>
-                {% endfor %} {% comment %}
-                <!-- prettier-ignore -->
-                {% endcomment %}
                 {{ address_form.non_field_errors }} 
                 {{ address_lookup_form.non_field_errors }}
-            </div>
-        </fieldset>
+                </div>
+            </fieldset>
 
-        <button
-            type="submit"
-            class="tw_neutral_button tw_button_anchor tw-w-full tw-mt-8"
-        >
-            {{ button_submit|upper }}
-        </button>
-    </form>
-</section>
+            <button
+                type="submit"
+                class="tw_neutral_button tw_button_anchor tw-w-full tw-mt-8"
+            >
+                {{ button_submit|upper }}
+            </button>
+        </form>
+    </section>
+
+    {% if similar_addresses %}
+    <section class="tw-w-1/2 tw-h-full tw-flex tw-flex-col tw-justify-center">
+        <header>
+            <h2>{% translate 'Similar addresses:' %}</h2>
+        </header>
+
+        {% comment %}
+        <!-- prettier-ignore -->
+        {% endcomment %}
+        <ol>
+            {% for address in similar_addresses %}
+            <li>
+                <a
+                    href="{% url 'addresses:address_detail' address.id %}"
+                    class="hover:tw-text-blue-600"
+                >
+                    {% comment %}
+                    <!-- prettier-ignore -->
+                    {% endcomment %}
+                    {{ forloop.counter }}. {{ address }}, {{ address.address_lookup }}</a
+                >
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
+    {% endif %}
+</div>
 {% endblock %}
